@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-native/no-inline-styles */
 import {
     View,
     Text,
@@ -12,6 +13,7 @@ import React, { ReactNode } from 'react';
 import { TextComponent } from '.';
 import { globalStyles } from '../styles/globalStyles';
 import { appColors } from '../constants/appColors';
+import { fontFamilies } from '../constants/fontFamily';
 
 interface Props {
     icon?: ReactNode;
@@ -56,9 +58,12 @@ const ButtonComponent = (props: Props) => {
                     textStyles,
                     {
                         marginLeft: icon ? 12 : 0,
+                        fontSize: 16
                     },
                 ]}
                 flex={icon && iconFlex === 'right' ? 1 : 0}
+                font={fontFamilies.medium}
+
             />
             {icon && iconFlex === 'right' && icon}
         </TouchableOpacity>
