@@ -18,7 +18,7 @@ const LoginScreen = () => {
   const [isRemember, setIsRemember] = useState(true);
 
   return (
-    <ContainerComponent isImageBackground>
+    <ContainerComponent isImageBackground isScroll>
       <SectionComponent styles={{
         justifyContent: 'center',
         alignItems: 'center',
