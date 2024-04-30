@@ -54,7 +54,7 @@ const ButtonComponent = (props: Props) => {
                     {
                         backgroundColor: color ?? appColors.primary,
                         marginBottom: 20,
-                        width: '90%',
+                        width: '80%',
                     },
                     styles,
                 ]}>
