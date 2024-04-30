@@ -62,7 +62,7 @@ const LoginScreen = ({ navigation }: any) => {
           </RowComponent>
           <ButtonComponent
             text="Forgot Password"
-            onPress={() => { }}
+            onPress={() => navigation.navigate('ForgotPassword')}
             type="text" />
         </RowComponent>
       </SectionComponent>
