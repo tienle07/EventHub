@@ -6,10 +6,6 @@ import { appColors } from '../../../constants/appColors';
 import { fontFamilies } from '../../../constants/fontFamily';
 import { Facebook, Google } from '../../../assets/svgs';
 
-
-
-
-
 const SocialLogin = () => {
     return (
         <SectionComponent>
