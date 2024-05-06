@@ -1,6 +1,6 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import { SplashScreen } from './src/screens';
 import AuthNavigator from './src/navigators/AuthNavigator';

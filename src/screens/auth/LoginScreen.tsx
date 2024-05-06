@@ -2,43 +2,60 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { View, Text, Button, Image, Switch } from 'react-native';
+import { Lock, Sms } from 'iconsax-react-native';
 import React, { useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ButtonComponent, ContainerComponent, InputComponent, RowComponent, SectionComponent, SpaceComponent, TextComponent } from '../../components';
-import { globalStyles } from '../../styles/globalStyles';
-import { Lock, LockCircle, Sms } from 'iconsax-react-native';
+import { Image, Switch } from 'react-native';
+import {
+  ButtonComponent,
+  ContainerComponent,
+  InputComponent,
+  RowComponent,
+  SectionComponent,
+  SpaceComponent,
+  TextComponent,
+} from '../../components';
 import { appColors } from '../../constants/appColors';
-import { fontFamilies } from '../../constants/fontFamily';
 import SocialLogin from './components/SocialLogin';
+import authenticationAPI from '../../apis/authApi';
 
 const LoginScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRemember, setIsRemember] = useState(true);
 
+  const handleLogin = async () => {
+    try {
+      const res = await authenticationAPI.HandleAuthentication('/hello');
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <ContainerComponent isImageBackground isScroll>
-      <SectionComponent styles={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 75,
-      }}>
-        <Image source={require('../../assets/images/text-logo.png')}
+      <SectionComponent
+        styles={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 75,
+        }}>
+        <Image
+          source={require('../../assets/images/text-logo.png')}
           style={{
             width: 162,
             height: 114,
             marginBottom: 30,
-          }} />
+          }}
+        />
       </SectionComponent>
       <SectionComponent>
-        <TextComponent size={24} title text="Sign In" />
+        <TextComponent size={24} title text="Sign in" />
         <SpaceComponent height={21} />
         <InputComponent
           value={email}
           placeholder="Email"
           onChange={val => setEmail(val)}
-          // isPassword
           allowClear
           affix={<Sms size={22} color={appColors.gray} />}
         />
@@ -51,7 +68,7 @@ const LoginScreen = ({ navigation }: any) => {
           affix={<Lock size={22} color={appColors.gray} />}
         />
         <RowComponent justify="space-between">
-          <RowComponent>
+          <RowComponent onPress={() => setIsRemember(!isRemember)}>
             <Switch
               trackColor={{ true: appColors.primary }}
               thumbColor={appColors.white}
@@ -61,31 +78,27 @@ const LoginScreen = ({ navigation }: any) => {
             <TextComponent text="Remember me" />
           </RowComponent>
           <ButtonComponent
-            text="Forgot Password"
+            text="Forgot Password?"
             onPress={() => navigation.navigate('ForgotPassword')}
-            type="text" />
+            type="text"
+          />
         </RowComponent>
       </SectionComponent>
       <SpaceComponent height={16} />
       <SectionComponent>
-        <ButtonComponent
-          text="SIGN IN"
-          type="primary" />
+        <ButtonComponent onPress={handleLogin} text="SIGN IN" type="primary" />
       </SectionComponent>
       <SocialLogin />
-
       <SectionComponent>
         <RowComponent justify="center">
-          <TextComponent text="Don't have an account? " />
+          <TextComponent text="Don’t have an account? " />
           <ButtonComponent
             type="link"
             text="Sign up"
             onPress={() => navigation.navigate('SignUpScreen')}
           />
         </RowComponent>
-
       </SectionComponent>
-
     </ContainerComponent>
   );
 };
