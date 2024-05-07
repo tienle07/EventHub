@@ -18,6 +18,9 @@ import SocialLogin from './components/SocialLogin';
 import { LoadingModal } from '../../modals';
 import authenticationAPI from '../../apis/authApi';
 import { Validate } from '../../utils/validate';
+import { useDispatch } from 'react-redux';
+import { addAuth } from '../../redux/reducers/authReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initValue = {
     username: '',
@@ -30,6 +33,8 @@ const SignUpScreen = ({ navigation }: any) => {
     const [values, setValues] = useState(initValue);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (values.email || values.password) {
@@ -57,11 +62,12 @@ const SignUpScreen = ({ navigation }: any) => {
                 try {
                     const res = await authenticationAPI.HandleAuthentication(
                         '/register',
-                        values,
+                        { fullName: values.username, email, password },
                         'post',
                     );
 
-                    console.log(res);
+                    dispatch(addAuth(res.data));
+                    await AsyncStorage.setItem('auth', JSON.stringify(res.data));
                     setIsLoading(false);
                 } catch (error) {
                     console.log(error);
