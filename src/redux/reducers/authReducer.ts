@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import {createSlice} from '@reduxjs/toolkit';
 
@@ -23,11 +24,15 @@ const authSlice = createSlice({
     addAuth: (state, action) => {
       state.authData = action.payload;
     },
+
+    removeAuth: (state, action) => {
+      state.authData = initialState;
+    },
   },
 });
 
 export const authReducer = authSlice.reducer;
 
-export const {addAuth} = authSlice.actions;
+export const {addAuth, removeAuth} = authSlice.actions;
 
 export const authSelector = (state: any) => state.authReducer.authData;
