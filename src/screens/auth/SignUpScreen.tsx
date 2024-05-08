@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -19,8 +20,6 @@ import { LoadingModal } from '../../modals';
 import { Validate } from '../../utils/validate';
 import SocialLogin from './components/SocialLogin';
 import authenticationAPI from '../../apis/authApi';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { addAuth } from '../../redux/reducers/authReducer';
 
 interface ErrorMessages {
     email: string;
@@ -49,13 +48,14 @@ const SignUpScreen = ({ navigation }: any) => {
             (errorMessage &&
                 (errorMessage.email ||
                     errorMessage.password ||
-                    errorMessage.confirmPassword))
+                    errorMessage.confirmPassword) &&
+                (!values.email || !values.password || !values.confirmPassword))
         ) {
             setIsDisable(true);
         } else {
             setIsDisable(false);
         }
-    }, [errorMessage]);
+    }, [errorMessage, values]);
 
     const handleChangeValue = (key: string, value: string) => {
         const data: any = { ...values };
@@ -103,35 +103,26 @@ const SignUpScreen = ({ navigation }: any) => {
     };
 
     const handleRegister = async () => {
-        // const { email, password, confirmPassword } = values;
+        const api = '/verification';
+        setIsLoading(true);
+        try {
+            const res = await authenticationAPI.HandleAuthentication(
+                api,
+                { email: values.email },
+                'post',
+            );
 
-        // const emailValidation = Validate.email(email);
-        // const passValidation = Validate.Password(password);
+            console.log(res);
+            setIsLoading(false);
 
-        // if (email && password && confirmPassword) {
-        //     if (emailValidation && passValidation) {
-        //         setErrorMessage('');
-        //         setIsLoading(true);
-        //         try {
-        //             const res = await authenticationAPI.HandleAuthentication(
-        //                 '/register',
-        //                 { fullName: values.username, email, password },
-        //                 'post',
-        //             );
-
-        //             dispatch(addAuth(res.data));
-        //             await AsyncStorage.setItem('auth', JSON.stringify(res.data));
-        //             setIsLoading(false);
-        //         } catch (error) {
-        //             console.log(error);
-        //             setIsLoading(false);
-        //         }
-        //     } else {
-        //         setErrorMessage('Email not correct!!!');
-        //     }
-        // } else {
-        //     setErrorMessage('Please enter full information');
-        // }
+            navigation.navigate('Verification', {
+                code: res.data.code,
+                ...values,
+            });
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+        }
     };
 
     return (
