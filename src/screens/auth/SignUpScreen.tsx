@@ -48,7 +48,7 @@ const SignUpScreen = ({ navigation }: any) => {
             (errorMessage &&
                 (errorMessage.email ||
                     errorMessage.password ||
-                    errorMessage.confirmPassword) &&
+                    errorMessage.confirmPassword) ||
                 (!values.email || !values.password || !values.confirmPassword))
         ) {
             setIsDisable(true);
