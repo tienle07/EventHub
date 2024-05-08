@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import {
     ButtonComponent,
@@ -11,42 +12,116 @@ import {
     SpaceComponent,
     TextComponent,
 } from '../../components';
-import { appColors } from '../../constants/appColors';
-import { fontFamilies } from '../../constants/fontFamily';
 import { ArrowRight } from 'iconsax-react-native';
+import { appColors } from '../../constants/appColors';
 import { globalStyles } from '../../styles/globalStyles';
+import authenticationAPI from '../../apis/authApi';
+import { LoadingModal } from '../../modals';
+import { useDispatch } from 'react-redux';
+import { addAuth } from '../../redux/reducers/authReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { fontFamilies } from '../../constants/fontFamily';
 
 const Verification = ({ navigation, route }: any) => {
-    const { code, email, password } = route.params;
+    const { code, email, password, username } = route.params;
 
-    const [codeValues, setCodeValues] = useState<String[]>([]);
-
+    const [currentCode, setCurrentCode] = useState<string>(code);
+    const [codeValues, setCodeValues] = useState<string[]>([]);
     const [newCode, setNewCode] = useState('');
+    const [limit, setLimit] = useState(120);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const ref1 = useRef<any>();
     const ref2 = useRef<any>();
     const ref3 = useRef<any>();
     const ref4 = useRef<any>();
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         ref1.current.focus();
-
     }, []);
 
     useEffect(() => {
-        let item = '';
+        if (limit > 0) {
+            const interval = setInterval(() => {
+                setLimit(limit => limit - 1);
+            }, 1000);
+            return () => clearInterval(interval);
+        }
+    }, [limit]);
+
+    useEffect(() => {
+        let item = ``;
+
         codeValues.forEach(val => (item += val));
+
         setNewCode(item);
     }, [codeValues]);
 
-
-    const handleChangeCode = (val: String, index: number) => {
+    const handleChangeCode = (val: string, index: number) => {
         const data = [...codeValues];
         data[index] = val;
+
         setCodeValues(data);
     };
 
-    console.log(codeValues);
+    const handleResendVerification = async () => {
+        setCodeValues(['', '', '', '']);
+        setNewCode('');
+
+        const api = `/verification`;
+        setIsLoading(true);
+        try {
+            const res: any = await authenticationAPI.HandleAuthentication(
+                api,
+                { email },
+                'post',
+            );
+
+            setLimit(120);
+            setCurrentCode(res.data.code);
+            setIsLoading(false);
+
+            console.log(res.data.code);
+        } catch (error) {
+            setIsLoading(false);
+            console.log(`Can not send verification code ${error}`);
+        }
+    };
+
+    const handleVerification = async () => {
+        if (limit > 0) {
+            if (parseInt(newCode) !== parseInt(currentCode)) {
+                setErrorMessage('Invalid code!!!');
+            } else {
+                setErrorMessage('');
+
+                const api = `/register`;
+                const data = {
+                    email,
+                    password,
+                    username: username ?? '',
+                };
+
+                try {
+                    const res: any = await authenticationAPI.HandleAuthentication(
+                        api,
+                        data,
+                        'post',
+                    );
+                    dispatch(addAuth(res.data));
+                    await AsyncStorage.setItem('auth', JSON.stringify(res.data));
+                } catch (error) {
+                    setErrorMessage('User has already exist!!!');
+                    console.log(`Can not create new user ${error}`);
+                }
+            }
+        } else {
+            setErrorMessage('Time out verification code, please resend new code!!!');
+        }
+    };
 
     return (
         <ContainerComponent back isImageBackground isScroll>
@@ -54,58 +129,59 @@ const Verification = ({ navigation, route }: any) => {
                 <TextComponent text="Verification" title />
                 <SpaceComponent height={12} />
                 <TextComponent
-                    text={`We're send you the verification code on
-                 ${email.replace(
-                        /.{1,5}/, (m: any) => '*'.repeat(m.length)
+                    text={`We’ve send you the verification code on ${email.replace(
+                        /.{1,5}/,
+                        (m: any) => '*'.repeat(m.length),
                     )}`}
                 />
                 <SpaceComponent height={26} />
-
                 <RowComponent justify="space-around">
-
                     <TextInput
                         keyboardType="number-pad"
                         ref={ref1}
+                        value={codeValues[0]}
                         style={[styles.input]}
                         maxLength={1}
                         onChangeText={val => {
                             val.length > 0 && ref2.current.focus();
                             handleChangeCode(val, 0);
-
                         }}
+                        // onChange={() => }
                         placeholder="-"
                     />
                     <TextInput
-                        keyboardType="number-pad"
                         ref={ref2}
-                        style={[styles.input]}
-                        maxLength={1}
-                        placeholder="-"
+                        value={codeValues[1]}
+                        keyboardType="number-pad"
                         onChangeText={val => {
                             handleChangeCode(val, 1);
                             val.length > 0 && ref3.current.focus();
                         }}
-                    />
-                    <TextInput
-                        keyboardType="number-pad"
-                        ref={ref3}
                         style={[styles.input]}
                         maxLength={1}
                         placeholder="-"
+                    />
+                    <TextInput
+                        keyboardType="number-pad"
+                        value={codeValues[2]}
+                        ref={ref3}
                         onChangeText={val => {
                             handleChangeCode(val, 2);
                             val.length > 0 && ref4.current.focus();
                         }}
+                        style={[styles.input]}
+                        maxLength={1}
+                        placeholder="-"
                     />
                     <TextInput
                         keyboardType="number-pad"
                         ref={ref4}
-                        maxLength={1}
+                        value={codeValues[3]}
                         onChangeText={val => {
                             handleChangeCode(val, 3);
-                            val.length > 0 && console.log(newCode);
                         }}
                         style={[styles.input]}
+                        maxLength={1}
                         placeholder="-"
                     />
                 </RowComponent>
@@ -113,29 +189,60 @@ const Verification = ({ navigation, route }: any) => {
             <SectionComponent styles={{ marginTop: 40 }}>
                 <ButtonComponent
                     disable={newCode.length !== 4}
-                    onPress={() => { }}
+                    onPress={handleVerification}
                     text="Continue"
                     type="primary"
                     iconFlex="right"
                     icon={
-                        <View style={[globalStyles.iconContainer]}>
+                        <View
+                            style={[
+                                globalStyles.iconContainer,
+                                {
+                                    backgroundColor:
+                                        newCode.length !== 4 ? appColors.gray : appColors.primary,
+                                },
+                            ]}>
                             <ArrowRight size={18} color={appColors.white} />
                         </View>
                     }
                 />
             </SectionComponent>
+            {errorMessage && (
+                <SectionComponent>
+                    <TextComponent
+                        styles={{ textAlign: 'center' }}
+                        text={errorMessage}
+                        color={appColors.danger}
+                    />
+                </SectionComponent>
+            )}
             <SectionComponent>
-                <RowComponent justify="center">
-                    <TextComponent text="Re-send code in " flex={0} />
-                    <TextComponent text="00:20 " color={appColors.link} />
-                </RowComponent>
+                {limit > 0 ? (
+                    <RowComponent justify="center">
+                        <TextComponent text="Re-send code in  " flex={0} />
+                        <TextComponent
+                            text={`${(limit - (limit % 60)) / 60}:${limit - (limit - (limit % 60))
+                                }`}
+                            flex={0}
+                            color={appColors.link}
+                        />
+                    </RowComponent>
+                ) : (
+                    <RowComponent>
+                        <ButtonComponent
+                            type="link"
+                            text="Resend email verification"
+                            onPress={handleResendVerification}
+                        />
+                    </RowComponent>
+                )}
             </SectionComponent>
+            <LoadingModal visible={isLoading} />
         </ContainerComponent>
     );
 };
 
 export default Verification;
-
 
 const styles = StyleSheet.create({
     input: {
@@ -149,6 +256,5 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontFamily: fontFamilies.bold,
         textAlign: 'center',
-
     },
 });
