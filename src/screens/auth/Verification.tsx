@@ -13,6 +13,8 @@ import {
 } from '../../components';
 import { appColors } from '../../constants/appColors';
 import { fontFamilies } from '../../constants/fontFamily';
+import { ArrowRight } from 'iconsax-react-native';
+import { globalStyles } from '../../styles/globalStyles';
 
 const Verification = ({ navigation, route }: any) => {
     const { code, email, password } = route.params;
@@ -34,7 +36,7 @@ const Verification = ({ navigation, route }: any) => {
     useEffect(() => {
         let item = '';
         codeValues.forEach(val => (item += val));
-        console.log(item);
+        setNewCode(item);
     }, [codeValues]);
 
 
@@ -101,6 +103,7 @@ const Verification = ({ navigation, route }: any) => {
                         maxLength={1}
                         onChangeText={val => {
                             handleChangeCode(val, 3);
+                            val.length > 0 && console.log(newCode);
                         }}
                         style={[styles.input]}
                         placeholder="-"
@@ -109,9 +112,16 @@ const Verification = ({ navigation, route }: any) => {
             </SectionComponent>
             <SectionComponent styles={{ marginTop: 40 }}>
                 <ButtonComponent
-                    disable onPress={() => { }}
+                    disable={newCode.length !== 4}
+                    onPress={() => { }}
                     text="Continue"
                     type="primary"
+                    iconFlex="right"
+                    icon={
+                        <View style={[globalStyles.iconContainer]}>
+                            <ArrowRight size={18} color={appColors.white} />
+                        </View>
+                    }
                 />
             </SectionComponent>
             <SectionComponent>
