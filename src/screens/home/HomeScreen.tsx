@@ -6,6 +6,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authSelector, removeAuth } from '../../redux/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { LoginManager } from 'react-native-fbsdk-next';
 
 const HomeScreen = () => {
 
@@ -21,6 +23,8 @@ const HomeScreen = () => {
             <Text>HomeScreen</Text>
             <Button title="Logout" onPress={async () => {
                 await AsyncStorage.clear();
+                await GoogleSignin.signOut();
+                LoginManager.logOut();
                 dispatch(removeAuth({}));
             }} />
         </View>
