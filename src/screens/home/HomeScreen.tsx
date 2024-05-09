@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { View, Text, Button } from 'react-native';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,12 +16,12 @@ const HomeScreen = () => {
         <View style={{
             flex: 1,
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
         }}>
             <Text>HomeScreen</Text>
-            <Button title='Logout' onPress={async () => {
-                await AsyncStorage.setItem('auth', auth.email);
-                dispatch(removeAuth({}))
+            <Button title="Logout" onPress={async () => {
+                await AsyncStorage.clear();
+                dispatch(removeAuth({}));
             }} />
         </View>
     );
