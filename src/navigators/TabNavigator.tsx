@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { ReactNode } from 'react';
 import EventNavigator from './EventNavigator';
@@ -19,6 +20,8 @@ import { Platform } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ExploreNavigator from './ExplorerNavigationr';
 import MapNavigator from './MapNavogator';
+import DrawerNavigator from './DrawerNavigator';
+
 
 
 const TabNavigator = () => {
