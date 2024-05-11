@@ -14,7 +14,7 @@ import React, { ReactNode } from 'react';
 import { TextComponent } from '.';
 import { globalStyles } from '../styles/globalStyles';
 import { appColors } from '../constants/appColors';
-import { fontFamilies } from '../constants/fontFamily';
+import { fontFamilies } from '../constants/fontFamilies';
 
 
 interface Props {

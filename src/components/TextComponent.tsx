@@ -3,7 +3,7 @@ import { Text, StyleProp, TextStyle, Platform } from 'react-native';
 import React from 'react';
 import { appColors } from '../constants/appColors';
 import { globalStyles } from '../styles/globalStyles';
-import { fontFamilies } from '../constants/fontFamily';
+import { fontFamilies } from '../constants/fontFamilies';
 
 interface Props {
     text: string;

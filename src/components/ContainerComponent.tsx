@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ButtonComponent, RowComponent, TextComponent } from '.';
 import { ArrowLeft } from 'iconsax-react-native';
 import { appColors } from '../constants/appColors';
-import { fontFamilies } from '../constants/fontFamily';
+import { fontFamilies } from '../constants/fontFamilies';
 
 
 interface Props {

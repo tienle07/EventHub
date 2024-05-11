@@ -18,6 +18,7 @@ import {
     CircleComponent,
     RowComponent,
     SpaceComponent,
+    TagComponent,
     TextComponent,
 } from '../../components';
 import {
@@ -27,9 +28,8 @@ import {
     SearchNormal1,
     Sort,
 } from 'iconsax-react-native';
-
+import { fontFamilies } from '../../constants/fontFamilies';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { fontFamilies } from '../../constants/fontFamily';
 
 const HomeScreen = ({ navigation }: any) => {
     const dispatch = useDispatch();
@@ -94,7 +94,7 @@ const HomeScreen = ({ navigation }: any) => {
                         </View>
                     </CircleComponent>
                 </RowComponent>
-                <SpaceComponent height={24} />
+                <SpaceComponent height={20} />
                 <RowComponent>
                     <RowComponent
                         styles={{ flex: 1 }}
@@ -105,37 +105,38 @@ const HomeScreen = ({ navigation }: any) => {
                         }>
                         <SearchNormal1
                             variant="TwoTone"
-                            size={22}
                             color={appColors.white}
+                            size={20}
                         />
                         <View
                             style={{
                                 width: 1,
-                                height: 18,
-                                marginHorizontal: 12,
-                                backgroundColor: '#A29EF0',
+                                backgroundColor: appColors.gray2,
+                                marginHorizontal: 10,
+                                height: 20,
                             }}
                         />
-                        <TextComponent text="Search..." color={`#A29EF0`} flex={1} />
+                        <TextComponent
+                            flex={1}
+                            text="Search..."
+                            color={appColors.gray2}
+                            size={16}
+                        />
                     </RowComponent>
-                    <RowComponent
+                    <TagComponent
+                        bgColor={'#5D56F3'}
                         onPress={() =>
                             navigation.navigate('SearchEvents', {
                                 isFilter: true,
                             })
                         }
-                        styles={{
-                            backgroundColor: '#5D56F3',
-                            paddingHorizontal: 12,
-                            paddingVertical: 8,
-                            borderRadius: 100,
-                        }}>
-                        <CircleComponent size={19.3} color={`#A29EF0`}>
-                            <Sort size={12} color={appColors.primary} />
-                        </CircleComponent>
-                        <SpaceComponent width={8} />
-                        <TextComponent text="Filters" color={appColors.white} />
-                    </RowComponent>
+                        label="Filters"
+                        icon={
+                            <CircleComponent size={20} color="#B1AEFA">
+                                <Sort size={16} color="#5D56F3" />
+                            </CircleComponent>
+                        }
+                    />
                 </RowComponent>
             </View>
             <View

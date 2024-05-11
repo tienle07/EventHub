@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet} from 'react-native';
 import {appColors} from '../constants/appColors';
-import {fontFamilies} from '../constants/fontFamily';
+import {fontFamilies} from '../constants/fontFamilies';
 
 export const globalStyles = StyleSheet.create({
   container: {
@@ -52,6 +52,12 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: '#3D56F0',
     width: 30,
     height: 30,
+    borderRadius: 100,
+  },
+
+  tag: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     borderRadius: 100,
   },
 });

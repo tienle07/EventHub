@@ -25,7 +25,7 @@ import {
     LoginButton,
 } from 'react-native-fbsdk-next';
 import { LoadingModal } from '../../../modals';
-import { fontFamilies } from '../../../constants/fontFamily';
+import { fontFamilies } from '../../../constants/fontFamilies';
 
 GoogleSignin.configure({
     webClientId:

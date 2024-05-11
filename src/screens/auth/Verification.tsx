@@ -20,7 +20,7 @@ import { LoadingModal } from '../../modals';
 import { useDispatch } from 'react-redux';
 import { addAuth } from '../../redux/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { fontFamilies } from '../../constants/fontFamily';
+import { fontFamilies } from '../../constants/fontFamilies';
 
 const Verification = ({ navigation, route }: any) => {
     const { code, email, password, username } = route.params;

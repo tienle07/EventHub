@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { Lock, Sms } from 'iconsax-react-native';
 import React, { useEffect, useState } from 'react';
 import { Alert, Image, Switch } from 'react-native';
+import authenticationAPI from '../../apis/authApi';
 import {
   ButtonComponent,
   ContainerComponent,
@@ -15,9 +15,8 @@ import {
   TextComponent,
 } from '../../components';
 import { appColors } from '../../constants/appColors';
-import SocialLogin from './components/SocialLogin';
-import authenticationAPI from '../../apis/authApi';
 import { Validate } from '../../utils/validate';
+import SocialLogin from './components/SocialLogin';
 import { useDispatch } from 'react-redux';
 import { addAuth } from '../../redux/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -27,6 +26,8 @@ const LoginScreen = ({ navigation }: any) => {
   const [password, setPassword] = useState('');
   const [isRemember, setIsRemember] = useState(true);
   const [isDisable, setIsDisable] = useState(true);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const emailValidation = Validate.email(email);
@@ -38,35 +39,29 @@ const LoginScreen = ({ navigation }: any) => {
     }
   }, [email, password]);
 
-  const dispatch = useDispatch();
-
-
-
   const handleLogin = async () => {
-
-    const emailvalidation = Validate.email(email);
-    if (emailvalidation) {
-
+    const emailValidation = Validate.email(email);
+    if (emailValidation) {
       try {
         const res = await authenticationAPI.HandleAuthentication(
           '/login',
           { email, password },
           'post',
         );
+
         dispatch(addAuth(res.data));
 
         await AsyncStorage.setItem(
-          'auth', isRemember ? JSON.stringify(res.data) : email,
+          'auth',
+          isRemember ? JSON.stringify(res.data) : email,
         );
-
       } catch (error) {
         console.log(error);
       }
     } else {
-      Alert.alert('Email is not correct');
+      Alert.alert('Email is not correct!!!!');
     }
   };
-
 
   return (
     <ContainerComponent isImageBackground isScroll>
@@ -123,7 +118,12 @@ const LoginScreen = ({ navigation }: any) => {
       </SectionComponent>
       <SpaceComponent height={16} />
       <SectionComponent>
-        <ButtonComponent disable={isDisable} onPress={handleLogin} text="SIGN IN" type="primary" />
+        <ButtonComponent
+          disable={isDisable}
+          onPress={handleLogin}
+          text="SIGN IN"
+          type="primary"
+        />
       </SectionComponent>
       <SocialLogin />
       <SectionComponent>
