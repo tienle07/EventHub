@@ -6,7 +6,7 @@ import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { appColors } from '../../constants/appColors';
 import { globalStyles } from '../../styles/globalStyles';
-import { appInfo } from '../../constants/appInfors';
+import { appInfo } from '../../constants/appInfos';
 import TextComponent from '../../components/TextComponent';
 import { fontFamilies } from '../../constants/fontFamilies';
 

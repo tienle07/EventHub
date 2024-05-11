@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { ActivityIndicator, Image, ImageBackground } from 'react-native';
 import React from 'react';
-import { appInfo } from '../constants/appInfors';
+import { appInfo } from '../constants/appInfos';
 
 import { SpaceComponent } from '../components';
 import { appColors } from '../constants/appColors';

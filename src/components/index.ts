@@ -10,6 +10,9 @@ import CircleComponent from './CircleComponent';
 import DrawerCustom from './DrawerCustom';
 import TagComponent from './TagComponent';
 import CategoriesList from './CategoriesList';
+import TabBarComponent from './TabBarComponent';
+import CardComponent from './CardComponent';
+import EventItem from './EventItem';
 
 export {
   SpaceComponent,
@@ -23,4 +26,7 @@ export {
   DrawerCustom,
   TagComponent,
   CategoriesList,
+  TabBarComponent,
+  CardComponent,
+  EventItem,
 };
