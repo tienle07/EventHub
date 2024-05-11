@@ -2,7 +2,11 @@
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { EventsScreen, SearchEvents } from '../screens';
+import {
+    EventDetail,
+    EventsScreen,
+    SearchEvents
+} from '../screens';
 
 
 const EventNavigator = () => {
@@ -13,7 +17,6 @@ const EventNavigator = () => {
                 headerShown: false,
             }}>
             <Stack.Screen name="EventsScreen" component={EventsScreen} />
-            <Stack.Screen name="SearchEvents" component={SearchEvents} />
         </Stack.Navigator>
     );
 };

@@ -24,6 +24,18 @@ export const globalStyles = StyleSheet.create({
     // minHeight: 56,
     flexDirection: 'row',
   },
+
+  button1: {
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: appColors.white,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    // minHeight: 56,
+    flexDirection: 'row',
+  },
+
   shadow: {
     shadowColor: Platform.OS === 'ios' ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.5)',
     shadowOffset: {
