@@ -13,6 +13,7 @@ import CategoriesList from './CategoriesList';
 import TabBarComponent from './TabBarComponent';
 import CardComponent from './CardComponent';
 import EventItem from './EventItem';
+import AvatarGroup from './AvatarGroup';
 
 export {
   SpaceComponent,
@@ -29,4 +30,5 @@ export {
   TabBarComponent,
   CardComponent,
   EventItem,
+  AvatarGroup,
 };
