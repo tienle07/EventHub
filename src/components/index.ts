@@ -9,6 +9,7 @@ import RowComponent from './RowComponent';
 import CircleComponent from './CircleComponent';
 import DrawerCustom from './DrawerCustom';
 import TagComponent from './TagComponent';
+import CategoriesList from './CategoriesList';
 
 export {
   SpaceComponent,
@@ -21,4 +22,5 @@ export {
   CircleComponent,
   DrawerCustom,
   TagComponent,
+  CategoriesList,
 };
