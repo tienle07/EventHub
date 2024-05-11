@@ -30,6 +30,7 @@ import { fontFamilies } from '../../../constants/fontFamily';
 GoogleSignin.configure({
     webClientId:
         '824548252942-kjmgd4hat40efr465h4uairt2qahptkb.apps.googleusercontent.com',
+    iosClientId: '',
 
 });
 
@@ -83,7 +84,7 @@ const SocialLogin = () => {
                         givenName: profile.firstName,
                         familyName: profile.lastName,
                         email: profile.email ?? '',
-                        photoUrl: profile.imageURL,
+                        photo: profile.imageURL,
                     };
 
                     const res: any = await authenticationAPI.HandleAuthentication(
