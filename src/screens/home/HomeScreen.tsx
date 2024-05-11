@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     FlatList,
     ImageBackground,
@@ -36,11 +35,17 @@ import {
 } from 'iconsax-react-native';
 import { fontFamilies } from '../../constants/fontFamilies';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import GeoLocation from '@react-native-community/geolocation';
+import { appInfo } from '../../constants/appInfos';
+import axios from 'axios';
+import { AddressModel } from '../../models/AddressModel';
 
 const HomeScreen = ({ navigation }: any) => {
-    const dispatch = useDispatch();
+    const [addressInfo, setAddressInfo] = useState<AddressModel>();
 
-    const auth = useSelector(authSelector);
+    useEffect(() => {
+        handleGetCurrentLocation();
+    }, []);
 
     const itemEvent = {
         title: 'International Band Music Concert',
@@ -56,6 +61,39 @@ const HomeScreen = ({ navigation }: any) => {
         startAt: Date.now(),
         endAt: Date.now(),
         date: Date.now(),
+    };
+
+    const handleGetCurrentLocation = async () => {
+        GeoLocation.getCurrentPosition(position => {
+            if (position && position.coords) {
+                handleResertGeocode({
+                    lat: position.coords.latitude,
+                    long: position.coords.longitude,
+                });
+            }
+        });
+    };
+
+    const handleResertGeocode = async ({
+        lat,
+        long,
+    }: {
+        lat: number;
+        long: number;
+    }) => {
+        const api = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${long}&lang=vi-Vi&apiKey=bR-rBIPVfyBq-bwvDM0Rkw5EYLLj31vqpdDBZR3M76o`;
+        await axios
+            .get(api)
+            .then(res => {
+                if (res && res.status === 200 && res.data) {
+                    const items = res.data.items;
+
+                    items.length > 0 && setAddressInfo(items[0]);
+                }
+            })
+            .catch(e => {
+                console.log('Error in getAddressFromCoordinates', e);
+            });
     };
 
     return (
@@ -88,13 +126,15 @@ const HomeScreen = ({ navigation }: any) => {
                                     color={appColors.white}
                                 />
                             </RowComponent>
-                            <TextComponent
-                                text="New York, USA"
-                                flex={0}
-                                color={appColors.white}
-                                font={fontFamilies.medium}
-                                size={13}
-                            />
+                            {addressInfo && (
+                                <TextComponent
+                                    text={`${addressInfo.address.city}, ${addressInfo.address.countryName}`}
+                                    flex={0}
+                                    color={appColors.white}
+                                    font={fontFamilies.medium}
+                                    size={13}
+                                />
+                            )}
                         </View>
 
                         <CircleComponent color="#524CE0" size={36}>
