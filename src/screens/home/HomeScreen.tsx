@@ -1,10 +1,7 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     FlatList,
+    ImageBackground,
     Platform,
     SafeAreaView,
     ScrollView,
@@ -17,6 +14,8 @@ import { authSelector } from '../../redux/reducers/authReducer';
 import { globalStyles } from '../../styles/globalStyles';
 import { appColors } from '../../constants/appColors';
 import {
+    ButtonComponent,
+    CardComponent,
     CategoriesList,
     CircleComponent,
     EventItem,
@@ -36,11 +35,68 @@ import {
 } from 'iconsax-react-native';
 import { fontFamilies } from '../../constants/fontFamilies';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import GeoLocation from '@react-native-community/geolocation';
+import { appInfo } from '../../constants/appInfos';
+import axios from 'axios';
+import { AddressModel } from '../../models/AddressModel';
 
 const HomeScreen = ({ navigation }: any) => {
-    const dispatch = useDispatch();
+    const [addressInfo, setAddressInfo] = useState<AddressModel>();
 
-    const auth = useSelector(authSelector);
+    useEffect(() => {
+        handleGetCurrentLocation();
+    }, []);
+
+
+    const itemEvent = {
+        title: 'International Band Music Concert',
+        description:
+            'Enjoy your favorite dishe and a lovely your friends and family and have a great time. Food from local food trucks will be available for purchase.',
+        location: {
+            title: 'Gala Convention Center',
+            address: '36 Guild Street London, UK',
+        },
+        imageUrl: '',
+        users: [''],
+        authorId: '',
+        startAt: Date.now(),
+        endAt: Date.now(),
+        date: Date.now(),
+    };
+
+
+    const handleGetCurrentLocation = async () => {
+        GeoLocation.getCurrentPosition(position => {
+            if (position && position.coords) {
+                handleResertGeocode({
+                    lat: position.coords.latitude,
+                    long: position.coords.longitude,
+                });
+            }
+        });
+    };
+
+    const handleResertGeocode = async ({
+        lat,
+        long,
+    }: {
+        lat: number;
+        long: number;
+    }) => {
+        const api = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${long}&lang=vi-Vi&apiKey=${process.env.API_KEY}`;
+        await axios
+            .get(api)
+            .then(res => {
+                if (res && res.status === 200 && res.data) {
+                    const items = res.data.items;
+
+                    items.length > 0 && setAddressInfo(items[0]);
+                }
+            })
+            .catch(e => {
+                console.log('Error in getAddressFromCoordinates', e);
+            });
+    };
 
     return (
         <View style={[globalStyles.container]}>
@@ -72,13 +128,15 @@ const HomeScreen = ({ navigation }: any) => {
                                     color={appColors.white}
                                 />
                             </RowComponent>
-                            <TextComponent
-                                text="New York, USA"
-                                flex={0}
-                                color={appColors.white}
-                                font={fontFamilies.medium}
-                                size={13}
-                            />
+                            {addressInfo && (
+                                <TextComponent
+                                    text={`${addressInfo.address.city}, ${addressInfo.address.countryName}`}
+                                    flex={0}
+                                    color={appColors.white}
+                                    font={fontFamilies.medium}
+                                    size={13}
+                                />
+                            )}
                         </View>
 
                         <CircleComponent color="#524CE0" size={36}>
@@ -155,16 +213,58 @@ const HomeScreen = ({ navigation }: any) => {
                 style={[
                     {
                         flex: 1,
-                        marginTop: 16,
+                        marginTop: Platform.OS === 'ios' ? 22 : 18,
                     },
                 ]}>
-                <SectionComponent styles={{ paddingHorizontal: 0, paddingTop: 20 }}>
+                <SectionComponent styles={{ paddingHorizontal: 0, paddingTop: 24 }}>
                     <TabBarComponent title="Upcoming Events" onPress={() => { }} />
                     <FlatList
+                        showsHorizontalScrollIndicator={false}
                         horizontal
                         data={Array.from({ length: 5 })}
                         renderItem={({ item, index }) => (
-                            <EventItem key={`event${index}`} item={item} type="card" />
+                            <EventItem key={`event${index}`} item={itemEvent} type="card" />
+                        )}
+                    />
+                </SectionComponent>
+                <SectionComponent>
+                    <ImageBackground
+                        source={require('../../assets/images/invite-image.png')}
+                        style={{ flex: 1, padding: 16, minHeight: 127 }}
+                        imageStyle={{
+                            resizeMode: 'cover',
+                            borderRadius: 12,
+                        }}>
+                        <TextComponent text="Invite your friends" title />
+                        <TextComponent text="Get $20 for ticket" />
+
+                        <RowComponent justify="flex-start">
+                            <TouchableOpacity
+                                style={[
+                                    globalStyles.button,
+                                    {
+                                        marginTop: 12,
+                                        backgroundColor: '#00F8FF',
+                                        paddingHorizontal: 28,
+                                    },
+                                ]}>
+                                <TextComponent
+                                    text="INVITE"
+                                    font={fontFamilies.bold}
+                                    color={appColors.white}
+                                />
+                            </TouchableOpacity>
+                        </RowComponent>
+                    </ImageBackground>
+                </SectionComponent>
+                <SectionComponent styles={{ paddingHorizontal: 0, paddingTop: 24 }}>
+                    <TabBarComponent title="Nearby You" onPress={() => { }} />
+                    <FlatList
+                        showsHorizontalScrollIndicator={false}
+                        horizontal
+                        data={Array.from({ length: 5 })}
+                        renderItem={({ item, index }) => (
+                            <EventItem key={`event${index}`} item={itemEvent} type="card" />
                         )}
                     />
                 </SectionComponent>

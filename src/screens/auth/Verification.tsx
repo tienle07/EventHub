@@ -1,7 +1,4 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -14,13 +11,13 @@ import {
 } from '../../components';
 import { ArrowRight } from 'iconsax-react-native';
 import { appColors } from '../../constants/appColors';
+import { fontFamilies } from '../../constants/fontFamilies';
 import { globalStyles } from '../../styles/globalStyles';
 import authenticationAPI from '../../apis/authApi';
 import { LoadingModal } from '../../modals';
 import { useDispatch } from 'react-redux';
 import { addAuth } from '../../redux/reducers/authReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { fontFamilies } from '../../constants/fontFamilies';
 
 const Verification = ({ navigation, route }: any) => {
     const { code, email, password, username } = route.params;
@@ -31,7 +28,6 @@ const Verification = ({ navigation, route }: any) => {
     const [limit, setLimit] = useState(120);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-
     const ref1 = useRef<any>();
     const ref2 = useRef<any>();
     const ref3 = useRef<any>();

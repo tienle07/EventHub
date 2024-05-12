@@ -1,28 +1,24 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { ReactNode } from 'react';
+import ExploreNavigator from './ExplorerNavigator';
 import EventNavigator from './EventNavigator';
 import { AddNewScreen } from '../screens';
+import MapNavigator from './MapNavigator';
 import ProfileNavigator from './ProfileNavigator';
 import { appColors } from '../constants/appColors';
 import {
     AddSquare,
     Calendar,
-
+    Home2,
+    Iost,
     Location,
     User,
 } from 'iconsax-react-native';
 import { CircleComponent, TextComponent } from '../components';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import ExploreNavigator from './ExplorerNavigationr';
-import MapNavigator from './MapNavogator';
+import { globalStyles } from '../styles/globalStyles';
 import DrawerNavigator from './DrawerNavigator';
-
-
 
 const TabNavigator = () => {
     const Tab = createBottomTabNavigator();
@@ -60,7 +56,10 @@ const TabNavigator = () => {
                             icon = (
                                 <CircleComponent
                                     size={52}
-                                    styles={{ marginTop: Platform.OS === 'ios' ? -50 : -60 }}>
+                                    styles={[
+                                        globalStyles.shadow,
+                                        { marginTop: Platform.OS === 'ios' ? -50 : -60 },
+                                    ]}>
                                     <AddSquare size={24} color={appColors.white} variant="Bold" />
                                 </CircleComponent>
                             );
@@ -71,6 +70,7 @@ const TabNavigator = () => {
                 tabBarIconStyle: {
                     marginTop: 8,
                 },
+                tabBarLabelPosition: 'below-icon',
                 tabBarLabel({ focused }) {
                     return route.name === 'Add' ? null : (
                         <TextComponent
