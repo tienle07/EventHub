@@ -14,6 +14,7 @@ import TabBarComponent from './TabBarComponent';
 import CardComponent from './CardComponent';
 import EventItem from './EventItem';
 import AvatarGroup from './AvatarGroup';
+import ChoiceLocation from './ChoiceLocation';
 
 export {
   SpaceComponent,
@@ -31,4 +32,5 @@ export {
   CardComponent,
   EventItem,
   AvatarGroup,
+  ChoiceLocation,
 };
