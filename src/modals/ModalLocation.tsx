@@ -43,7 +43,7 @@ const ModalLocation = (props: Props) => {
     };
 
     const handleSearchLocation = async () => {
-        const api = `https://autocomplete.search.hereapi.com/v1/autocomplete?q=${searchKey}&limit=10&apiKey=bR-rBIPVfyBq-bwvDM0Rkw5EYLLj31vqpdDBZR3M76o`;
+        const api = `https://autocomplete.search.hereapi.com/v1/autocomplete?q=${searchKey}&limit=20&apiKey=EoGZAqvCk9NFBvK6Trb_9iudji1DWPy1QfnsJN0GRlo`;
 
         try {
             setIsLoading(true);

@@ -30,7 +30,7 @@ const ContainerComponent = (props: Props) => {
 
     const headerComponent = () => {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, paddingTop: 40 }}>
                 {(title || back) && (
                     <RowComponent
                         styles={{

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "672735931620",
+    "project_id": "eventhub-4352b",
+    "storage_bucket": "eventhub-4352b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672735931620:android:e5ca061d781cc3ce6350f1",
+        "android_client_info": {
+          "package_name": "letien.eventhub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTVeAzMd17twHFB26ZLQHyj5CivFwCU-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
