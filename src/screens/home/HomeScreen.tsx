@@ -47,6 +47,7 @@ const HomeScreen = ({ navigation }: any) => {
         handleGetCurrentLocation();
     }, []);
 
+
     const itemEvent = {
         title: 'International Band Music Concert',
         description:
@@ -62,6 +63,7 @@ const HomeScreen = ({ navigation }: any) => {
         endAt: Date.now(),
         date: Date.now(),
     };
+
 
     const handleGetCurrentLocation = async () => {
         GeoLocation.getCurrentPosition(position => {
@@ -81,7 +83,7 @@ const HomeScreen = ({ navigation }: any) => {
         lat: number;
         long: number;
     }) => {
-        const api = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${long}&lang=vi-Vi&apiKey=bR-rBIPVfyBq-bwvDM0Rkw5EYLLj31vqpdDBZR3M76o`;
+        const api = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${long}&lang=vi-Vi&apiKey=${process.env.API_KEY}`;
         await axios
             .get(api)
             .then(res => {
