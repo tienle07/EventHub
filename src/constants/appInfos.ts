@@ -9,4 +9,19 @@ export const appInfo = {
   },
   BASE_URL: 'http://192.168.1.203:3001',
   // BASE_URL: 'http://localhost:3001',
+
+  monthNames: [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ],
 };

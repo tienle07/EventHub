@@ -1,3 +1,4 @@
+
 import {
     View,
     Text,
@@ -6,6 +7,7 @@ import {
     SafeAreaView,
     TouchableOpacity,
     StatusBar,
+    Platform,
 } from 'react-native';
 import React, { ReactNode } from 'react';
 import { globalStyles } from '../styles/globalStyles';
@@ -30,7 +32,7 @@ const ContainerComponent = (props: Props) => {
 
     const headerComponent = () => {
         return (
-            <View style={{ flex: 1, paddingTop: 40 }}>
+            <View style={{ flex: 1 }}>
                 {(title || back) && (
                     <RowComponent
                         styles={{
@@ -75,15 +77,20 @@ const ContainerComponent = (props: Props) => {
     return isImageBackground ? (
         <ImageBackground
             source={require('../assets/images/splash-img.png')}
-            style={{ flex: 1 }
-            }
+            style={{ flex: 1 }}
             imageStyle={{ flex: 1 }}>
             <SafeAreaView style={{ flex: 1 }}>{headerComponent()}</SafeAreaView>
-        </ImageBackground >
+        </ImageBackground>
     ) : (
         <SafeAreaView style={[globalStyles.container]}>
             <StatusBar barStyle={'dark-content'} />
-            <View style={[globalStyles.container]}>{headerComponent()}</View>
+            <View
+                style={[
+                    globalStyles.container,
+                    { paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 },
+                ]}>
+                {headerComponent()}
+            </View>
         </SafeAreaView>
     );
 };
