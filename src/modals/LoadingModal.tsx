@@ -20,7 +20,7 @@ const LoadingModal = (props: Props) => {
             visible={visible}
             style={[{ flex: 1 }]}
             transparent
-            statusBarTranslucent>
+            statusBarTranslucent>x
             <View
                 style={{
                     flex: 1,
