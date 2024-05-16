@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addAuth, authSelector } from '../redux/reducers/authReducer';
 import { SplashScreen } from '../screens';
 
-const AppRouter = () => {
+const AppRouters = () => {
 
     const [isShowSplash, setIsShowSplash] = useState(true);
     const { getItem } = useAsyncStorage('auth');
@@ -42,4 +42,4 @@ const AppRouter = () => {
     return <>{isShowSplash ? <SplashScreen /> : auth.accesstoken ? <MainNavigator /> : <AuthNavigator />}</>;
 };
 
-export default AppRouter;
+export default AppRouters;

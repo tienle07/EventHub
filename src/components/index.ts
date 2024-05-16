@@ -16,6 +16,7 @@ import EventItem from './EventItem';
 import AvatarGroup from './AvatarGroup';
 import ChoiceLocation from './ChoiceLocation';
 import DateTimePicker from './DateTimePicker';
+import DropdownPicker from './DropdownPicker';
 
 export {
   SpaceComponent,
@@ -35,4 +36,5 @@ export {
   AvatarGroup,
   ChoiceLocation,
   DateTimePicker,
+  DropdownPicker,
 };
