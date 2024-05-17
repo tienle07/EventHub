@@ -143,11 +143,6 @@ const DropdownPicker = (props: Props) => {
                     ) : (
                         <TextComponent text="Select" />
                     )}
-                    {/* {selected ? selectedItems.length > 0 ? (
-            
-          ) : (
-            
-          )} */}
                 </RowComponent>
                 <ArrowDown2 size={22} color={appColors.gray} />
             </RowComponent>
