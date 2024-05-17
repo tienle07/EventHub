@@ -3,6 +3,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
       android:name=".MainApplication"
@@ -13,6 +15,7 @@
       android:theme="@style/AppTheme">
        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAnFXDBP2Oehxmt2iqAL_WQWC6uc1xVTfI"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
