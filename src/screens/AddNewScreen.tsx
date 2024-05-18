@@ -64,10 +64,13 @@ const AddNewScreen = ({ navigation }: any) => {
         setErrorsMess(mess);
     }, [eventData]);
 
-    const handleChangeValue = (key: string, value: string | Date | string[]) => {
+    const handleChangeValue = (key: string, value: any) => {
         const items = { ...eventData };
-        items[`${key}`] = value;
-
+        if (key === 'startAt' || key === 'endAt' || key === 'date') {
+            items[key] = new Date(value).getTime();
+        } else {
+            items[key] = value;
+        }
         setEventData(items);
     };
 
@@ -98,8 +101,7 @@ const AddNewScreen = ({ navigation }: any) => {
 
     const handleAddEvent = async () => {
         if (fileSelected) {
-            const filename = `${fileSelected.filename ?? `image-${Date.now()}`}.${fileSelected.path.split('.')[1]
-                }`;
+            const filename = `${fileSelected.filename ?? `image-${Date.now()}`}.${fileSelected.path.split('.')[1]}`;
             const path = `images/${filename}`;
 
             const res = storage().ref(path).putFile(fileSelected.path);
@@ -132,6 +134,7 @@ const AddNewScreen = ({ navigation }: any) => {
         const api = `/add-new`;
         try {
             const res = await eventAPI.HandleEvent(api, event, 'post');
+            console.log(res);
             navigation.navigate('Explore', {
                 screen: 'HomeScreen',
             });
