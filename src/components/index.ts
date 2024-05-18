@@ -19,6 +19,7 @@ import DateTimePicker from './DateTimePicker';
 import DropdownPicker from './DropdownPicker';
 import ButtonImagePicker from './ButtonImagePicker';
 import MakerCustom from './MakerCustom';
+import LoadingComponent from './LoadingComponent';
 
 export {
   SpaceComponent,
@@ -41,4 +42,5 @@ export {
   DropdownPicker,
   ButtonImagePicker,
   MakerCustom,
+  LoadingComponent,
 };

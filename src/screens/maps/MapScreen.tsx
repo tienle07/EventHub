@@ -86,7 +86,8 @@ const MapScreen = ({ navigation }: any) => {
                         latitudeDelta: 0.001,
                         longitudeDelta: 0.015,
                     }}
-                >
+                    mapType="standard">
+
                     {events.length > 0 &&
                         events.map((event, index) => (
                             <Marker
