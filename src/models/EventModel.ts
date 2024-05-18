@@ -5,13 +5,14 @@ export interface EventModel {
   category: string;
   createdAt: string;
   description: string;
-  endAt: string;
+  endAt: number;
   locationAddress: string;
   locationTitle: string;
   photoUrl: string;
   position: Position;
   price: string;
-  startAt: string;
+  date: number;
+  startAt: number;
   title: string;
   updatedAt: string;
   users: any[];
