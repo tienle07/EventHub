@@ -69,7 +69,7 @@ const EventDetail = ({ navigation, route }: any) => {
     const handleUpdateFollowers = async (data: string[]) => {
         await UserHandle.getFollowersById(auth.id, dispatch);
 
-        const api = `/update-followes`;
+        const api = `/update-followers`;
 
         try {
             await eventAPI.HandleEvent(
