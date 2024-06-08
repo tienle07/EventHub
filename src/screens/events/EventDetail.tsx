@@ -22,8 +22,8 @@ import { LoadingModal } from '../../modals';
 import { EventModel } from '../../models/EventModel';
 import { AuthState, authSelector } from '../../redux/reducers/authReducer';
 import { globalStyles } from '../../styles/globalStyles';
-import { UserHandle } from '../../utils/UserHandlers';
 import { DateTime } from '../../utils/DateTime';
+import { UserHandle } from '../../utils/UserHandlers';
 
 const EventDetail = ({ navigation, route }: any) => {
     const { item }: { item: EventModel } = route.params;
@@ -69,7 +69,7 @@ const EventDetail = ({ navigation, route }: any) => {
     const handleUpdateFollowers = async (data: string[]) => {
         await UserHandle.getFollowersById(auth.id, dispatch);
 
-        const api = `/update-followers`;
+        const api = `/update-followes`;
 
         try {
             await eventAPI.HandleEvent(
