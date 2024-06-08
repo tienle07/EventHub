@@ -1,7 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react-native/no-inline-styles */
-
 import {
     View,
     Text,
@@ -16,10 +12,9 @@ import { globalStyles } from '../styles/globalStyles';
 import { appColors } from '../constants/appColors';
 import { fontFamilies } from '../constants/fontFamilies';
 
-
 interface Props {
     icon?: ReactNode;
-    text: string;
+    text?: string;
     type?: 'primary' | 'text' | 'link';
     color?: string;
     styles?: StyleProp<ViewStyle>;
@@ -29,6 +24,7 @@ interface Props {
     onPress?: () => void;
     iconFlex?: 'right' | 'left';
     disable?: boolean;
+    width?: any;
 }
 
 const ButtonComponent = (props: Props) => {
@@ -44,6 +40,7 @@ const ButtonComponent = (props: Props) => {
         iconFlex,
         type,
         disable,
+        width,
     } = props;
 
     return type === 'primary' ? (
@@ -61,35 +58,40 @@ const ButtonComponent = (props: Props) => {
                                 ? appColors.gray4
                                 : appColors.primary,
                         marginBottom: 17,
-                        width: '90%',
+                        width: width ? width : '90%',
                     },
                     styles,
                 ]}>
                 {icon && iconFlex === 'left' && icon}
-                <TextComponent
-                    text={text}
-                    color={textColor ?? appColors.white}
-                    styles={[
-                        textStyles,
-                        {
-                            marginLeft: icon ? 12 : 0,
-                            fontSize: 16,
-                            textAlign: 'center',
-                        },
-                    ]}
-                    flex={icon && iconFlex === 'right' ? 1 : 0}
-                    font={textFont ?? fontFamilies.medium}
-                />
+                {text && (
+                    <TextComponent
+                        text={text}
+                        color={textColor ?? appColors.white}
+                        styles={[
+                            textStyles,
+                            {
+                                marginLeft: icon ? 12 : 0,
+                                fontSize: 16,
+                                textAlign: 'center',
+                            },
+                        ]}
+                        flex={icon && iconFlex === 'right' ? 1 : 0}
+                        font={textFont ?? fontFamilies.medium}
+                    />
+                )}
                 {icon && iconFlex === 'right' && icon}
             </TouchableOpacity>
         </View>
     ) : (
         <TouchableOpacity onPress={onPress}>
-            <TextComponent
-                flex={0}
-                text={text}
-                color={type === 'link' ? appColors.primary : appColors.text}
-            />
+            {icon && icon}
+            {text && (
+                <TextComponent
+                    flex={0}
+                    text={text}
+                    color={type === 'link' ? appColors.primary : appColors.text}
+                />
+            )}
         </TouchableOpacity>
     );
 };

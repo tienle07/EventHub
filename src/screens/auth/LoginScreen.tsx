@@ -48,9 +48,6 @@ const LoginScreen = ({ navigation }: any) => {
           { email, password },
           'post',
         );
-
-        console.log(res);
-
         dispatch(addAuth(res.data));
 
         await AsyncStorage.setItem(

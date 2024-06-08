@@ -1,4 +1,3 @@
-// const api = `https://autocomplete.search.hereapi.com/v1/autocomplete?q=${searchKey}&limit=20&apiKey=${process.env.API_KEY}`;
 import GeoLocation from '@react-native-community/geolocation';
 import axios from 'axios';
 import { SearchNormal1 } from 'iconsax-react-native';

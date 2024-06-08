@@ -1,6 +1,4 @@
-/* eslint-disable prettier/prettier */
-
-import { Text, StyleProp, TextStyle, Platform } from 'react-native';
+import { View, Text, StyleProp, TextStyle, Platform } from 'react-native';
 import React from 'react';
 import { appColors } from '../constants/appColors';
 import { fontFamilies } from '../constants/fontFamilies';
@@ -45,4 +43,3 @@ const TextComponent = (props: Props) => {
 };
 
 export default TextComponent;
-

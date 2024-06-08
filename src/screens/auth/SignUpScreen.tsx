@@ -1,7 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable quotes */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { Lock, Sms, User } from 'iconsax-react-native';
 import React, { useEffect, useState } from 'react';
@@ -48,8 +44,10 @@ const SignUpScreen = ({ navigation }: any) => {
             (errorMessage &&
                 (errorMessage.email ||
                     errorMessage.password ||
-                    errorMessage.confirmPassword) ||
-                (!values.email || !values.password || !values.confirmPassword))
+                    errorMessage.confirmPassword)) ||
+            !values.email ||
+            !values.password ||
+            !values.confirmPassword
         ) {
             setIsDisable(true);
         } else {
@@ -103,7 +101,7 @@ const SignUpScreen = ({ navigation }: any) => {
     };
 
     const handleRegister = async () => {
-        const api = '/verification';
+        const api = `/verification`;
         setIsLoading(true);
         try {
             const res = await authenticationAPI.HandleAuthentication(
@@ -112,7 +110,6 @@ const SignUpScreen = ({ navigation }: any) => {
                 'post',
             );
 
-            console.log(res);
             setIsLoading(false);
 
             navigation.navigate('Verification', {

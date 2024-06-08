@@ -1,4 +1,3 @@
-
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import {
