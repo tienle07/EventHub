@@ -16,7 +16,6 @@ import { globalStyles } from '../../styles/globalStyles';
 import AboutProfile from './components/AboutProfile';
 import EditProfile from './components/EditProfile';
 
-
 const ProfileScreen = ({ navigation, route }: any) => {
     const [isLoading, setIsLoading] = useState(false);
     const [profile, setProfile] = useState<ProfileModel>();
@@ -29,8 +28,11 @@ const ProfileScreen = ({ navigation, route }: any) => {
     useEffect(() => {
         if (route.params) {
             const { id } = route.params;
-
             setProfileId(id);
+
+            if (route.params.isUpdated) {
+                getProfile();
+            }
         } else {
             setProfileId(auth.id);
         }
@@ -115,7 +117,11 @@ const ProfileScreen = ({ navigation, route }: any) => {
                             </View>
                         </RowComponent>
                     </SectionComponent>
-                    {auth.id !== profileId ? <AboutProfile /> : <EditProfile />}
+                    {auth.id !== profileId ? (
+                        <AboutProfile />
+                    ) : (
+                        <EditProfile profile={profile} />
+                    )}
                 </>
             ) : (
                 <TextComponent text="profile not found!" />

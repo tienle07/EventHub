@@ -1,3 +1,4 @@
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import {
@@ -113,10 +114,9 @@ const DrawerCustom = ({ navigation }: any) => {
                 navigation.navigate('Profile', {
                     screen: 'ProfileScreen',
                     params: {
-                        id: auth.ud,
+                        id: auth.id,
                     },
                 });
-
                 break;
             default:
                 console.log(key);
@@ -130,7 +130,7 @@ const DrawerCustom = ({ navigation }: any) => {
         <View style={[localStyles.container]}>
             <AvatarComponent
                 onPress={() => handleNavigation('MyProfile')}
-                photoURL={auth.photoURL}
+                photoURL={auth.photo}
                 name={auth.name ? auth.name : auth.email}
             />
             <FlatList
