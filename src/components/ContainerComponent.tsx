@@ -11,7 +11,7 @@ import {
 import React, { ReactNode } from 'react';
 import { globalStyles } from '../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
-import { RowComponent, TextComponent } from '.';
+import { ButtonComponent, RowComponent, TextComponent } from '.';
 import { ArrowLeft } from 'iconsax-react-native';
 import { appColors } from '../constants/appColors';
 import { fontFamilies } from '../constants/fontFamilies';
@@ -40,8 +40,7 @@ const ContainerComponent = (props: Props) => {
                             paddingVertical: 10,
                             minWidth: 48,
                             minHeight: 48,
-                            justifyContent: 'center',
-                            alignItems: 'center',
+                            justifyContent: 'flex-start',
                         }}>
                         {back && (
                             <TouchableOpacity
@@ -51,15 +50,13 @@ const ContainerComponent = (props: Props) => {
                             </TouchableOpacity>
                         )}
 
-                        <View
-                            style={{
-                                flex: 1,
-                            }}>
+                        <View style={{ flex: 1 }}>
                             {title ? (
                                 <TextComponent
                                     text={title}
                                     size={16}
                                     font={fontFamilies.medium}
+                                    flex={1}
                                 />
                             ) : (
                                 <></>

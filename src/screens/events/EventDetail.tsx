@@ -26,7 +26,7 @@ import { DateTime } from '../../utils/DateTime';
 import { UserHandle } from '../../utils/UserHandlers';
 
 const EventDetail = ({ navigation, route }: any) => {
-    const { item }: { item: EventModel } = route.params;
+    const { item }: { item: EventModel } = route.params || {};  // Ensure item is defined
     const [isLoading, setIsLoading] = useState(false);
     const [followers, setFollowers] = useState<string[]>([]);
 
@@ -34,7 +34,9 @@ const EventDetail = ({ navigation, route }: any) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        item && getFollowersById();
+        if (item) {
+            getFollowersById();
+        }
     }, [item]);
 
     const getFollowersById = async () => {
@@ -42,18 +44,21 @@ const EventDetail = ({ navigation, route }: any) => {
 
         try {
             const res = await eventAPI.HandleEvent(api);
-            res && res.data && setFollowers(res.data);
+            if (res && res.data) {
+                setFollowers(res.data);
+            }
         } catch (error) {
-            console.log(`Can not get followers by event id ${error}`);
+            console.log(`Cannot get followers by event id ${error}`);
         }
     };
 
-    const handleFlower = () => {
+    const handleFollow = () => {
+        if (!item) return;  // Ensure item is defined
+
         const items = [...followers];
 
         if (items.includes(auth.id)) {
             const index = items.findIndex(element => element === auth.id);
-
             if (index !== -1) {
                 items.splice(index, 1);
             }
@@ -62,11 +67,12 @@ const EventDetail = ({ navigation, route }: any) => {
         }
 
         setFollowers(items);
-
         handleUpdateFollowers(items);
     };
 
     const handleUpdateFollowers = async (data: string[]) => {
+        if (!item) return;  // Ensure item is defined
+
         await UserHandle.getFollowersById(auth.id, dispatch);
 
         const api = `/update-followes`;
@@ -81,9 +87,13 @@ const EventDetail = ({ navigation, route }: any) => {
                 'post',
             );
         } catch (error) {
-            console.log(`Can not update followers in Event detail line 63, ${error}`);
+            console.log(`Cannot update followers in Event detail line 63, ${error}`);
         }
     };
+
+    if (!item) {
+        return <TextComponent text="Event not found" />;  // Handle the case when item is undefined
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -113,7 +123,7 @@ const EventDetail = ({ navigation, route }: any) => {
                                 color={appColors.white}
                             />
                             <CardComponent
-                                onPress={handleFlower}
+                                onPress={handleFollow}
                                 styles={[globalStyles.noSpaceCard, { width: 36, height: 36 }]}
                                 color={
                                     auth.follow_events && auth.follow_events.includes(item._id)
@@ -234,7 +244,6 @@ const EventDetail = ({ navigation, route }: any) => {
                                     justifyContent: 'space-around',
                                 }}>
                                 <TextComponent
-                                    // numOfLine={1}
                                     text={item.locationTitle}
                                     font={fontFamilies.medium}
                                     size={16}
@@ -248,11 +257,8 @@ const EventDetail = ({ navigation, route }: any) => {
                         <RowComponent
                             styles={{ marginBottom: 20 }}
                             onPress={() =>
-                                navigation.navigate('Profile', {
-                                    screen: 'ProfileScreen',
-                                    params: {
-                                        id: item.authorId,
-                                    },
+                                navigation.navigate('ProfileScreen', {
+                                    id: item.authorId,
                                 })
                             }>
                             <Image
