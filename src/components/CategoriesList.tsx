@@ -34,7 +34,7 @@ const CategoriesList = (props: Props) => {
             color: '#F0635A',
         },
         {
-            key: 'mucsic',
+            key: 'music',
             label: 'Music',
             icon: (
                 <FontAwesome5

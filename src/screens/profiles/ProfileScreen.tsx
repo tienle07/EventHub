@@ -11,7 +11,11 @@ import {
     TextComponent,
 } from '../../components';
 import { ProfileModel } from '../../models/ProfileModel';
-import { AuthState, authSelector } from '../../redux/reducers/authReducer';
+import {
+    AuthState,
+    addAuth,
+    authSelector,
+} from '../../redux/reducers/authReducer';
 import { globalStyles } from '../../styles/globalStyles';
 import AboutProfile from './components/AboutProfile';
 import EditProfile from './components/EditProfile';
@@ -70,6 +74,8 @@ const ProfileScreen = ({ navigation, route }: any) => {
             console.log();
         }
     };
+
+    console.log(profile);
 
     return (
         <ContainerComponent back title="Profile">

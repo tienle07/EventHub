@@ -1,8 +1,9 @@
-/* eslint-disable prettier/prettier */
 import LoadingModal from './LoadingModal';
 import ModalLocation from './ModalLocation';
+import ModalSelectCategories from './ModalSelectCategories';
 
 export {
     LoadingModal,
-    ModalLocation
+    ModalLocation,
+    ModalSelectCategories
 };
