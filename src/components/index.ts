@@ -21,6 +21,7 @@ import ButtonImagePicker from './ButtonImagePicker';
 import MakerCustom from './MakerCustom';
 import LoadingComponent from './LoadingComponent';
 import AvatarComponent from './AvatarComponent';
+import UserComponent from './UserComponent';
 
 export {
   SpaceComponent,
@@ -45,4 +46,5 @@ export {
   MakerCustom,
   LoadingComponent,
   AvatarComponent,
+  UserComponent,
 };
