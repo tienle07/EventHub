@@ -12,6 +12,8 @@ import ProfileScreen from './profiles/ProfileScreen';
 import SearchEvents from './events/SearchEvent';
 import EventDetail from './events/EventDetail';
 import EditProfileScreen from './profiles/EditProfileScreen';
+import NotFound from './NotFound';
+import ExploreEvents from './events/ExploreEvents';
 
 export {
   HomeScreen,
@@ -27,4 +29,6 @@ export {
   SearchEvents,
   EventDetail,
   EditProfileScreen,
+  NotFound,
+  ExploreEvents,
 };

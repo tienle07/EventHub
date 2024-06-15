@@ -1,4 +1,4 @@
-import { View, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { SelectModel } from '../models/SelectModel';
 import {

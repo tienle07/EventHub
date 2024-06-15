@@ -1,3 +1,4 @@
+
 import { SearchNormal1, TickCircle } from 'iconsax-react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Share, View } from 'react-native';

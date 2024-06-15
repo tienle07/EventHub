@@ -34,30 +34,24 @@ import { ProfileModel } from '../../models/ProfileModel';
 import ModalInvite from '../../modals/ModalInvite';
 
 const EventDetail = ({ navigation, route }: any) => {
-    const { id }: { id: string } = route.params;
+    const { item }: { item: EventModel } = route.params;
     const [isLoading, setIsLoading] = useState(false);
     const [followers, setFollowers] = useState<string[]>([]);
     const [profile, setProfile] = useState<ProfileModel>();
     const [isVisibleModalinvite, setIsVisibleModalinvite] = useState(false);
-    const [item, setItem] = useState<EventModel>();
 
     const auth: AuthState = useSelector(authSelector);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (id) {
-            getFollowersById();
-        }
-    }, [id]);
-
-    useEffect(() => {
         if (item) {
+            getFollowersById();
             getProfile(item.authorId);
         }
     }, [item]);
 
     const getFollowersById = async () => {
-        const api = `/followers?id=${id}`;
+        const api = `/followers?id=${item._id}`;
 
         try {
             const res = await eventAPI.HandleEvent(api);
@@ -94,7 +88,7 @@ const EventDetail = ({ navigation, route }: any) => {
             await eventAPI.HandleEvent(
                 api,
                 {
-                    id,
+                    id: item._id,
                     followers: data,
                 },
                 'post',
@@ -140,7 +134,7 @@ const EventDetail = ({ navigation, route }: any) => {
         }
     };
 
-    return item ? (
+    return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <View
                 style={{ position: 'absolute', top: 0, right: 0, zIndex: 1, left: 0 }}>
@@ -401,8 +395,6 @@ const EventDetail = ({ navigation, route }: any) => {
                 eventId={item._id}
             />
         </View>
-    ) : (
-        <></>
     );
 };
 

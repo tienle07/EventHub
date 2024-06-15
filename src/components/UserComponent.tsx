@@ -1,3 +1,4 @@
+
 import { View, Text, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { RowComponent, SpaceComponent, TextComponent } from '.';

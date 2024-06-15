@@ -13,7 +13,7 @@ export class HandleNotification {
     ) {
       if (Platform.OS === 'ios') {
         try {
-          // await messaging().registerDeviceForRemoteMessages();
+          await messaging().registerDeviceForRemoteMessages();
         } catch (error) {
           console.log(error);
         }
@@ -25,7 +25,6 @@ export class HandleNotification {
 
   static getFcmToken = async () => {
     const fcmtoken = await AsyncStorage.getItem('fcmtoken');
-    console.log(fcmtoken);
 
     if (!fcmtoken) {
       const token = await messaging().getToken();
@@ -39,7 +38,7 @@ export class HandleNotification {
     }
   };
 
-  static updateTokenForUser = async (token: string, items?: string[]) => {
+  static updateTokenForUser = async (token: string) => {
     const res = await AsyncStorage.getItem('auth');
 
     if (res) {

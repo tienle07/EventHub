@@ -22,6 +22,7 @@ import MakerCustom from './MakerCustom';
 import LoadingComponent from './LoadingComponent';
 import AvatarComponent from './AvatarComponent';
 import UserComponent from './UserComponent';
+import ListEventComponent from './ListEventComponent';
 
 export {
   SpaceComponent,
@@ -47,4 +48,5 @@ export {
   LoadingComponent,
   AvatarComponent,
   UserComponent,
+  ListEventComponent,
 };
