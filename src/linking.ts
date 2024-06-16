@@ -19,7 +19,7 @@ const config = {
 };
 
 const linking: any = {
-  prefixes: ['eventhub://app'],
+  prefixes: ['eventhub://app', 'https://eventhub.com'],
   config,
 };
 
