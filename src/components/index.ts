@@ -23,6 +23,7 @@ import LoadingComponent from './LoadingComponent';
 import AvatarComponent from './AvatarComponent';
 import UserComponent from './UserComponent';
 import ListEventComponent from './ListEventComponent';
+import RadioButtons from './RadioButtons';
 
 export {
   SpaceComponent,
@@ -49,4 +50,5 @@ export {
   AvatarComponent,
   UserComponent,
   ListEventComponent,
+  RadioButtons,
 };
