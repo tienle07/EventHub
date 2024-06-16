@@ -1,4 +1,3 @@
-
 import GeoLocation from '@react-native-community/geolocation';
 import { ArrowLeft2 } from 'iconsax-react-native';
 import React, { useEffect, useState } from 'react';
@@ -20,6 +19,7 @@ import { appInfo } from '../../constants/appInfos';
 import { EventModel } from '../../models/EventModel';
 import { globalStyles } from '../../styles/globalStyles';
 import { useIsFocused } from '@react-navigation/native';
+import { LoadingModal } from '../../modals';
 
 const MapScreen = ({ navigation }: any) => {
     const [currentLocation, setCurrentLocation] = useState<{
@@ -27,6 +27,7 @@ const MapScreen = ({ navigation }: any) => {
         long: number;
     }>();
     const [events, setEvents] = useState<EventModel[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
     const isFocused = useIsFocused();
 
     //eventhub://app/detail/12345
@@ -52,16 +53,20 @@ const MapScreen = ({ navigation }: any) => {
         currentLocation && isFocused && getNearbyEvents();
     }, [currentLocation, isFocused]);
 
-    const getNearbyEvents = async () => {
+    const getNearbyEvents = async (categoryId?: string) => {
+        setIsLoading(true);
         const api = `/get-events?lat=${currentLocation?.lat}&long=${currentLocation?.long
-            }&distance=${5}`;
+            }&distance=${5}${categoryId ? `&categoryId=${categoryId}` : ''}`;
 
         try {
             const res = await eventAPI.HandleEvent(api);
+            console.log(res);
 
             setEvents(res.data);
+            setIsLoading(false);
         } catch (error) {
             console.log(error);
+            setIsLoading(false);
         }
     };
 
@@ -153,7 +158,7 @@ const MapScreen = ({ navigation }: any) => {
                     </CardComponent>
                 </RowComponent>
                 <SpaceComponent height={20} />
-                <CategoriesList />
+                <CategoriesList onFilter={catId => getNearbyEvents(catId)} />
             </View>
             <View
                 style={{
@@ -170,6 +175,8 @@ const MapScreen = ({ navigation }: any) => {
                     showsHorizontalScrollIndicator={false}
                 />
             </View>
+
+            <LoadingModal visible={isLoading} />
         </View>
     );
 };
