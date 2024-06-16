@@ -1,8 +1,10 @@
+
 import GeoLocation from '@react-native-community/geolocation';
 import messaging from '@react-native-firebase/messaging';
 import axios from 'axios';
 import {
     HambergerMenu,
+    Link,
     Notification,
     SearchNormal1,
     Sort,
@@ -12,6 +14,7 @@ import {
     Alert,
     FlatList,
     ImageBackground,
+    Linking,
     Platform,
     ScrollView,
     StatusBar,
@@ -103,9 +106,9 @@ const HomeScreen = ({ navigation }: any) => {
 
     const getEvents = async (lat?: number, long?: number, distance?: number) => {
         const api = `${lat && long
-                ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
-                }&limit=5`
-                : `/get-events?limit=5`
+            ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
+            }&limit=5`
+            : `/get-events?limit=5`
             }`;
 
         setIsLoading(true);
@@ -133,6 +136,14 @@ const HomeScreen = ({ navigation }: any) => {
                     borderBottomRightRadius: 40,
                     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 52,
                 }}>
+                <TouchableOpacity
+                    onPress={() =>
+                        Linking.openURL(
+                            'eventhub://app/detail/666dddfaa8bbad9ab12ec263',
+                        )
+                    }>
+                    <TextComponent text="fafaf" />
+                </TouchableOpacity>
                 <View style={{ paddingHorizontal: 16 }}>
                     <RowComponent>
                         <TouchableOpacity onPress={() => navigation.openDrawer()}>

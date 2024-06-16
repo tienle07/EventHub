@@ -1,6 +1,12 @@
+import MainNavigator from './navigators/MainNavigator';
+import {EventDetail} from './screens';
+
 const config = {
   screens: {
     NotFound: '*',
+    EventDetail: {
+      path: 'detail/:id',
+    },
   },
 };
 
