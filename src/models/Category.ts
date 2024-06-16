@@ -3,4 +3,6 @@ export interface Category {
   color: string;
   title: string;
   key: string;
+  iconWhite: string;
+  iconColor: string;
 }
