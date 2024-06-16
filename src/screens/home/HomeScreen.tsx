@@ -1,3 +1,4 @@
+
 import GeoLocation from '@react-native-community/geolocation';
 import messaging from '@react-native-firebase/messaging';
 import axios from 'axios';
@@ -52,6 +53,8 @@ const HomeScreen = ({ navigation }: any) => {
     const [nearbyEvents, setNearbyEvents] = useState<EventModel[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [eventData, setEventData] = useState<EventModel[]>([]);
+
     const isFocused = useIsFocused();
 
     useEffect(() => {
@@ -71,7 +74,7 @@ const HomeScreen = ({ navigation }: any) => {
         );
 
         getEvents();
-
+        getEventsData();
         messaging().onMessage(async (mess: any) => {
             Toast.show({
                 text1: mess.notification.title,
@@ -125,9 +128,9 @@ const HomeScreen = ({ navigation }: any) => {
 
     const getEvents = async (lat?: number, long?: number, distance?: number) => {
         const api = `${lat && long
-                ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
-                }&limit=5`
-                : `/get-events?limit=5`
+            ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
+            }&limit=5`
+            : `/get-events?limit=5`
             }`;
 
         if (events.length === 0 || nearbyEvents.length === 0) {
@@ -143,6 +146,50 @@ const HomeScreen = ({ navigation }: any) => {
         } catch (error) {
             setIsLoading(false);
             console.log(`Get event error in home screen line 74 ${error}`);
+        }
+    };
+
+    const getEventsData = async (
+        lat?: number,
+        long?: number,
+        distance?: number,
+    ) => {
+        const api = `/get-events`;
+        try {
+            const res = await eventAPI.HandleEvent(api);
+
+            const data = res.data;
+
+            const items: EventModel[] = [];
+
+            data.forEach((item: any) => items.push(item));
+
+            setEventData(items);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const categories = [
+        { label: 'Food', value: '666a6837d6373d317f650d18' },
+        { label: 'Sports', value: '666a6836d6373d317f650d16' },
+        { label: 'Music', value: '666a6837d6373d317f650d1a' },
+        { label: 'Art', value: '666a6837d6373d317f650d1c' },
+    ];
+
+    const handleFixDataEvents = async () => {
+        if (eventData.length > 0) {
+            eventData.forEach(async event => {
+                const api = `/update-event?id=${event._id}`;
+
+                const data = {
+                    categories: categories[Math.floor(Math.random() * 4)].value,
+                };
+
+                const res = await eventAPI.HandleEvent(api, data, 'put');
+
+                console.log(res.data.categories);
+            });
         }
     };
 
@@ -264,6 +311,11 @@ const HomeScreen = ({ navigation }: any) => {
                         marginTop: Platform.OS === 'ios' ? 22 : 18,
                     },
                 ]}>
+                <SectionComponent>
+                    <TouchableOpacity onPress={handleFixDataEvents}>
+                        <TextComponent text="Fixdata" />
+                    </TouchableOpacity>
+                </SectionComponent>
                 <SectionComponent styles={{ paddingHorizontal: 0, paddingTop: 24 }}>
                     <TabBarComponent
                         title="Upcoming Events"
