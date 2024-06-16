@@ -1,4 +1,3 @@
-
 import GeoLocation from '@react-native-community/geolocation';
 import messaging from '@react-native-firebase/messaging';
 import axios from 'axios';
@@ -170,29 +169,6 @@ const HomeScreen = ({ navigation }: any) => {
         }
     };
 
-    const categories = [
-        { label: 'Food', value: '666a6837d6373d317f650d18' },
-        { label: 'Sports', value: '666a6836d6373d317f650d16' },
-        { label: 'Music', value: '666a6837d6373d317f650d1a' },
-        { label: 'Art', value: '666a6837d6373d317f650d1c' },
-    ];
-
-    const handleFixDataEvents = async () => {
-        if (eventData.length > 0) {
-            eventData.forEach(async event => {
-                const api = `/update-event?id=${event._id}`;
-
-                const data = {
-                    categories: categories[Math.floor(Math.random() * 4)].value,
-                };
-
-                const res = await eventAPI.HandleEvent(api, data, 'put');
-
-                console.log(res.data.categories);
-            });
-        }
-    };
-
     return (
         <View style={[globalStyles.container]}>
             <StatusBar barStyle={'light-content'} />
@@ -311,11 +287,6 @@ const HomeScreen = ({ navigation }: any) => {
                         marginTop: Platform.OS === 'ios' ? 22 : 18,
                     },
                 ]}>
-                <SectionComponent>
-                    <TouchableOpacity onPress={handleFixDataEvents}>
-                        <TextComponent text="Fixdata" />
-                    </TouchableOpacity>
-                </SectionComponent>
                 <SectionComponent styles={{ paddingHorizontal: 0, paddingTop: 24 }}>
                     <TabBarComponent
                         title="Upcoming Events"
