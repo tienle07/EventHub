@@ -15,6 +15,7 @@ import EditProfileScreen from './profiles/EditProfileScreen';
 import NotFound from './NotFound';
 import ExploreEvents from './events/ExploreEvents';
 import CategoryDetail from './events/CategoryDetail';
+import PaymentScreen from './events/PaymentScreen';
 
 export {
   HomeScreen,
@@ -33,4 +34,5 @@ export {
   NotFound,
   ExploreEvents,
   CategoryDetail,
+  PaymentScreen,
 };

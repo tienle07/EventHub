@@ -1,3 +1,4 @@
+
 import { ArrowLeft, ArrowRight, Calendar, Location } from 'iconsax-react-native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -103,7 +104,7 @@ const EventDetail = ({ navigation, route }: any) => {
     const handleUpdateFollowers = async (data: string[]) => {
         await UserHandle.getFollowersById(auth.id, dispatch);
 
-        const api = `/update-followes`;
+        const api = `/update-followers`;
 
         try {
             await eventAPI.HandleEvent(
@@ -157,6 +158,25 @@ const EventDetail = ({ navigation, route }: any) => {
             const res: any = await eventAPI.HandleEvent(api);
 
             setItem(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleCreateBillPaymentDetail = async () => {
+        const data = {
+            createdAt: Date.now(),
+            createdBy: auth.id,
+            eventId: id,
+            price: item?.price,
+            authorId: item?.authorId,
+        };
+
+        const api = `/buy-ticket`;
+
+        try {
+            const res = await eventAPI.HandleEvent(api, data, 'post');
+            navigation.navigate('PaymentScreen', { billDetail: res.data });
         } catch (error) {
             console.log(error);
         }
@@ -405,9 +425,9 @@ const EventDetail = ({ navigation, route }: any) => {
                     padding: 12,
                 }}>
                 <ButtonComponent
-                    text="BUY TICKET $120"
+                    text={`BUY TICKET $${parseFloat(item.price).toLocaleString()}`}
                     type="primary"
-                    onPress={() => { }}
+                    onPress={handleCreateBillPaymentDetail}
                     iconFlex="right"
                     icon={
                         <View
