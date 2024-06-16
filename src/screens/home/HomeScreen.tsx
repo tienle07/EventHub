@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react';
 import {
     Alert,
     FlatList,
+    Image,
     ImageBackground,
     Linking,
     Platform,
@@ -127,9 +128,9 @@ const HomeScreen = ({ navigation }: any) => {
 
     const getEvents = async (lat?: number, long?: number, distance?: number) => {
         const api = `${lat && long
-            ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
-            }&limit=5`
-            : `/get-events?limit=5`
+                ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
+                }&limit=5`
+                : `/get-events?limit=5`
             }`;
 
         if (events.length === 0 || nearbyEvents.length === 0) {

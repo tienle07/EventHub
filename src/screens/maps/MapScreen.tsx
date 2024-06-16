@@ -1,3 +1,4 @@
+
 import GeoLocation from '@react-native-community/geolocation';
 import { ArrowLeft2 } from 'iconsax-react-native';
 import React, { useEffect, useState } from 'react';
@@ -5,7 +6,6 @@ import { FlatList, StatusBar, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import eventAPI from '../../apis/eventApi';
-import { KnifeFork_Color } from '../../assets/svgs';
 import {
     CardComponent,
     CategoriesList,
@@ -14,12 +14,12 @@ import {
     MakerCustom,
     RowComponent,
     SpaceComponent,
-    TextComponent,
 } from '../../components';
 import { appColors } from '../../constants/appColors';
 import { appInfo } from '../../constants/appInfos';
 import { EventModel } from '../../models/EventModel';
 import { globalStyles } from '../../styles/globalStyles';
+import { useIsFocused } from '@react-navigation/native';
 
 const MapScreen = ({ navigation }: any) => {
     const [currentLocation, setCurrentLocation] = useState<{
@@ -27,10 +27,13 @@ const MapScreen = ({ navigation }: any) => {
         long: number;
     }>();
     const [events, setEvents] = useState<EventModel[]>([]);
+    const isFocused = useIsFocused();
+
+    //eventhub://app/detail/12345
 
     useEffect(() => {
         GeoLocation.getCurrentPosition(
-            position => {
+            (position: any) => {
                 if (position.coords) {
                     setCurrentLocation({
                         lat: position.coords.latitude,
@@ -38,7 +41,7 @@ const MapScreen = ({ navigation }: any) => {
                     });
                 }
             },
-            error => {
+            (error: any) => {
                 console.log(error);
             },
             {},
@@ -46,8 +49,8 @@ const MapScreen = ({ navigation }: any) => {
     }, []);
 
     useEffect(() => {
-        currentLocation && getNearbyEvents();
-    }, [currentLocation]);
+        currentLocation && isFocused && getNearbyEvents();
+    }, [currentLocation, isFocused]);
 
     const getNearbyEvents = async () => {
         const api = `/get-events?lat=${currentLocation?.lat}&long=${currentLocation?.long
@@ -87,14 +90,15 @@ const MapScreen = ({ navigation }: any) => {
                         longitudeDelta: 0.015,
                     }}
                     mapType="standard">
-
                     {events.length > 0 &&
                         events.map((event, index) => (
                             <Marker
                                 key={`event${index}`}
                                 title={event.title}
                                 description=""
-                                onPress={() => console.log('fafa')}
+                                onPress={() =>
+                                    navigation.navigate('EventDetail', { id: event._id })
+                                }
                                 coordinate={{
                                     longitude: event.position.long,
                                     latitude: event.position.lat,
@@ -118,7 +122,7 @@ const MapScreen = ({ navigation }: any) => {
                     paddingTop: 48,
                 }}>
                 <RowComponent>
-                    <View style={{ flex: 1 }}>
+                    <RowComponent styles={{ flex: 1 }}>
                         <InputComponent
                             styles={{ marginBottom: 0 }}
                             affix={
@@ -135,7 +139,7 @@ const MapScreen = ({ navigation }: any) => {
                             value=""
                             onChange={val => console.log(val)}
                         />
-                    </View>
+                    </RowComponent>
                     <SpaceComponent width={12} />
                     <CardComponent
                         onPress={getNearbyEvents}
