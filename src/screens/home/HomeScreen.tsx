@@ -47,7 +47,6 @@ const HomeScreen = ({ navigation }: any) => {
     const [events, setEvents] = useState<EventModel[]>([]);
     const [nearbyEvents, setNearbyEvents] = useState<EventModel[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [isVisibleModalFilter, setIsVisibleModalFilter] = useState(false);
     const [eventData, setEventData] = useState<EventModel[]>([]);
 
     const isFocused = useIsFocused();
@@ -123,16 +122,16 @@ const HomeScreen = ({ navigation }: any) => {
 
     const getEvents = async (lat?: number, long?: number, distance?: number) => {
         const api = `${lat && long
-                ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
-                }&limit=5`
-                : `/get-events?limit=5`
+            ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
+            }&limit=5&isUpcoming=true`
+            : `/get-events?limit=5&isUpcoming=true`
             }`;
 
         if (events.length === 0 || nearbyEvents.length === 0) {
             setIsLoading(true);
         }
         try {
-            const res = await eventAPI.HandleEvent(api);
+            const res: any = await eventAPI.HandleEvent(api);
 
             setIsLoading(false);
             res &&
@@ -228,11 +227,7 @@ const HomeScreen = ({ navigation }: any) => {
                     <RowComponent>
                         <RowComponent
                             styles={{ flex: 1 }}
-                            onPress={() =>
-                                navigation.navigate('SearchEvents', {
-                                    isFilter: false,
-                                })
-                            }>
+                            onPress={() => navigation.navigate('SearchEvents')}>
                             <SearchNormal1
                                 variant="TwoTone"
                                 color={appColors.white}
@@ -255,11 +250,8 @@ const HomeScreen = ({ navigation }: any) => {
                         </RowComponent>
                         <TagComponent
                             bgColor={'#5D56F3'}
-                            onPress={
-                                () => setIsVisibleModalFilter(true)
-                                // navigation.navigate('SearchEvents', {
-                                //   isFilter: true,
-                                // })
+                            onPress={() =>
+                                navigation.navigate('SearchEvents', { isFilter: true })
                             }
                             label="Filters"
                             icon={
@@ -365,11 +357,6 @@ const HomeScreen = ({ navigation }: any) => {
                     )}
                 </SectionComponent>
             </ScrollView>
-
-            <ModalFilterEvents
-                visible={isVisibleModalFilter}
-                onClose={() => setIsVisibleModalFilter(false)}
-            />
         </View>
     );
 };
