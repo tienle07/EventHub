@@ -16,6 +16,7 @@ import NotFound from './NotFound';
 import ExploreEvents from './events/ExploreEvents';
 import CategoryDetail from './events/CategoryDetail';
 import PaymentScreen from './events/PaymentScreen';
+import NotificationsScreen from './NotificationsScreen';
 
 export {
   HomeScreen,
@@ -35,4 +36,5 @@ export {
   ExploreEvents,
   CategoryDetail,
   PaymentScreen,
+  NotificationsScreen,
 };

@@ -1,3 +1,4 @@
+
 import {
     ArrowLeft,
     ArrowRight,
@@ -45,7 +46,6 @@ import userAPI from '../../apis/userApi';
 import { ProfileModel } from '../../models/ProfileModel';
 import ModalInvite from '../../modals/ModalInvite';
 import { ShareEvent } from '../../utils/shareEvent';
-
 
 const EventDetail = ({ navigation, route }: any) => {
     const { id }: { id: string } = route.params;
@@ -113,7 +113,7 @@ const EventDetail = ({ navigation, route }: any) => {
     const handleUpdateFollowers = async (data: string[]) => {
         await UserHandle.getFollowersById(auth.id, dispatch);
 
-        const api = `/update-followers`;
+        const api = `/update-followes`;
 
         try {
             await eventAPI.HandleEvent(
@@ -466,6 +466,7 @@ const EventDetail = ({ navigation, route }: any) => {
             <LoadingModal visible={isLoading} />
 
             <ModalInvite
+                title={item.title}
                 visible={isVisibleModalinvite}
                 onClose={() => setIsVisibleModalinvite(false)}
                 eventId={item._id}

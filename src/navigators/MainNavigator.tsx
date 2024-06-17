@@ -9,6 +9,7 @@ import {
     ProfileScreen,
     SearchEvents,
 } from '../screens';
+import NotificationsScreen from '../screens/NotificationsScreen';
 
 const MainNavigator = () => {
     const Stack = createNativeStackNavigator();
@@ -25,6 +26,10 @@ const MainNavigator = () => {
             <Stack.Screen name="ExploreEvents" component={ExploreEvents} />
             <Stack.Screen name="SearchEvents" component={SearchEvents} />
             <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
+            <Stack.Screen
+                name="NotificationsScreen"
+                component={NotificationsScreen}
+            />
         </Stack.Navigator>
     );
 };
