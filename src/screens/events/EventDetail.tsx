@@ -1,4 +1,10 @@
-import { ArrowLeft, ArrowRight, Calendar, Location } from 'iconsax-react-native';
+import {
+    ArrowLeft,
+    ArrowRight,
+    Calendar,
+    Location,
+    Share,
+} from 'iconsax-react-native';
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
@@ -38,6 +44,8 @@ import { UserHandle } from '../../utils/UserHandlers';
 import userAPI from '../../apis/userApi';
 import { ProfileModel } from '../../models/ProfileModel';
 import ModalInvite from '../../modals/ModalInvite';
+import { ShareEvent } from '../../utils/shareEvent';
+
 
 const EventDetail = ({ navigation, route }: any) => {
     const { id }: { id: string } = route.params;
@@ -50,6 +58,8 @@ const EventDetail = ({ navigation, route }: any) => {
 
     const auth: AuthState = useSelector(authSelector);
     const dispatch = useDispatch();
+
+    // console.log(id);
 
     useEffect(() => {
         if (id) {
@@ -103,7 +113,7 @@ const EventDetail = ({ navigation, route }: any) => {
     const handleUpdateFollowers = async (data: string[]) => {
         await UserHandle.getFollowersById(auth.id, dispatch);
 
-        const api = `/update-followes`;
+        const api = `/update-followers`;
 
         try {
             await eventAPI.HandleEvent(
@@ -216,6 +226,17 @@ const EventDetail = ({ navigation, route }: any) => {
                                 title
                                 color={appColors.white}
                             />
+                            <ButtonComponent
+                                onPress={() =>
+                                    ShareEvent({
+                                        title: item.title,
+                                        description: item.description,
+                                        id,
+                                    })
+                                }
+                                icon={<Share size={22} color="white" />}
+                            />
+                            <SpaceComponent width={12} />
                             <CardComponent
                                 onPress={handleFlower}
                                 styles={[globalStyles.noSpaceCard, { width: 36, height: 36 }]}

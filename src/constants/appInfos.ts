@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-
 import {Dimensions} from 'react-native';
 
 export const appInfo = {
@@ -9,6 +7,7 @@ export const appInfo = {
   },
   BASE_URL: 'http://192.168.1.203:3001',
   // BASE_URL: 'http://localhost:3001',
+  domain: 'https://dashboard-mauve-xi.vercel.app/',
   GoogleApiKey: 'AIzaSyC28hJvcwjOn5X3EqRTD8bVZDFlq7AYNCs',
   monthNames: [
     'January',
