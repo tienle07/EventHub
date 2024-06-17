@@ -1,4 +1,3 @@
-
 import { ArrowLeft, ArrowRight, Calendar, Location } from 'iconsax-react-native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -104,7 +103,7 @@ const EventDetail = ({ navigation, route }: any) => {
     const handleUpdateFollowers = async (data: string[]) => {
         await UserHandle.getFollowersById(auth.id, dispatch);
 
-        const api = `/update-followers`;
+        const api = `/update-followes`;
 
         try {
             await eventAPI.HandleEvent(
