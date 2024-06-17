@@ -20,7 +20,7 @@ import { globalStyles } from '../../styles/globalStyles';
 import { LoadingModal, ModalFilterEvents } from '../../modals';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const eventBaseUrl = '/get-events?title=';
+const eventBaseUrl = '/get-events';
 
 const SearchEvents = ({ navigation, route }: any) => {
     const [searchKey, setSearchKey] = useState('');
@@ -51,12 +51,11 @@ const SearchEvents = ({ navigation, route }: any) => {
     };
 
     const handleSearchEvent = async (api: string) => {
-        console.log(api);
         setIsSearching(true);
         try {
             const res = await eventAPI.HandleEvent(api);
 
-            setResults(res.data);
+            setResults(res.data && res.data.length > 0 ? res.data : []);
             setIsSearching(false);
         } catch (error) {
             console.log(error);
