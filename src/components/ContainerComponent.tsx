@@ -11,7 +11,7 @@ import {
 import React, { ReactNode } from 'react';
 import { globalStyles } from '../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
-import { RowComponent, TextComponent } from '.';
+import { ButtonComponent, RowComponent, TextComponent } from '.';
 import { ArrowLeft } from 'iconsax-react-native';
 import { appColors } from '../constants/appColors';
 import { fontFamilies } from '../constants/fontFamilies';

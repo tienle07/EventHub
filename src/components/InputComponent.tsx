@@ -10,6 +10,8 @@ import {
     ViewStyle,
 } from 'react-native';
 import React, { ReactNode, useState } from 'react';
+import { Touchable } from 'react-native';
+import { EyeSlash } from 'iconsax-react-native';
 import { appColors } from '../constants/appColors';
 import { globalStyles } from '../styles/globalStyles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';

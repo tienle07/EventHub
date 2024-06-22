@@ -1,4 +1,6 @@
 import GeoLocation from '@react-native-community/geolocation';
+import messaging from '@react-native-firebase/messaging';
+import { useIsFocused } from '@react-navigation/native';
 import axios from 'axios';
 import {
     HambergerMenu,
@@ -10,9 +12,16 @@ import React, { useEffect, useState } from 'react';
 import {
     FlatList,
     ImageBackground,
+    Modal,
     Platform,
     ScrollView,
     StatusBar,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
+import firestore from '@react-native-firebase/firestore';
+import Toast from 'react-native-toast-message';
     ToastAndroid,
     TouchableOpacity,
     View,
@@ -20,6 +29,7 @@ import {
 import Geocoder from 'react-native-geocoding';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
+    ButtonComponent,
     CategoriesList,
     CircleComponent,
     EventItem,
@@ -35,19 +45,28 @@ import { appColors } from '../../constants/appColors';
 import { fontFamilies } from '../../constants/fontFamilies';
 import { AddressModel } from '../../models/AddressModel';
 import { globalStyles } from '../../styles/globalStyles';
+import { handleLinking } from '../../utils/handleLinking';
+import NetInfo from '@react-native-community/netinfo';
 import eventAPI from '../../apis/eventApi';
 import { EventModel } from '../../models/EventModel';
 import messaging, {
     FirebaseMessagingTypes,
 } from '@react-native-firebase/messaging';
 
-Geocoder.init(process.env.MAP_API_KEY as string);
+import { useSelector } from 'react-redux';
+import { authSelector } from '../../redux/reducers/authReducer';
 
 const HomeScreen = ({ navigation }: any) => {
     const [currentLocation, setCurrentLocation] = useState<AddressModel>();
     const [events, setEvents] = useState<EventModel[]>([]);
     const [nearbyEvents, setNearbyEvents] = useState<EventModel[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [eventData, setEventData] = useState<EventModel[]>([]);
+    const [isOnline, setIsOnline] = useState<boolean>();
+    const [unReadNotifications, setUnReadNotifications] = useState([]);
+
+    const isFocused = useIsFocused();
+    const user = useSelector(authSelector);
 
     useEffect(() => {
         GeoLocation.getCurrentPosition(
@@ -66,6 +85,47 @@ const HomeScreen = ({ navigation }: any) => {
         );
 
         getEvents();
+        getEventsData();
+        messaging().onMessage(async (mess: any) => {
+            Toast.show({
+                text1: mess.notification.title,
+                text2: mess.notification.body,
+                onPress: () => {
+                    const id = mess.data ? mess.data.id : '';
+                    id && navigation.navigate('EventDetail', { id });
+                },
+            });
+        });
+
+        messaging()
+            .getInitialNotification()
+            .then((mess: any) => {
+                const id = mess && mess.data ? mess.data.id : '';
+                id && handleLinking(`eventhub://app/detail/${mess.data.id}`);
+            });
+
+        checkNetWork();
+
+        firestore()
+            .collection('notification')
+            .where('idRead', '==', false)
+            .where('uid', '==', user.id)
+            .onSnapshot(snap => {
+                if (!snap || snap.empty) {
+                    setUnReadNotifications([]);
+                } else {
+                    const items: any = [];
+
+                    snap.forEach(item =>
+                        items.push({
+                            id: item.id,
+                            ...item.data(),
+                        }),
+                    );
+
+                    setUnReadNotifications(items);
+                }
+            });
 
         messaging().onMessage(
             async (mess: FirebaseMessagingTypes.RemoteMessage) => {
@@ -80,10 +140,27 @@ const HomeScreen = ({ navigation }: any) => {
     }, []);
 
     useEffect(() => {
+        getNearByEvents();
+    }, [currentLocation]);
+
+    useEffect(() => {
+        if (isFocused) {
+            getEvents();
+            getNearByEvents();
+        }
+    }, [isFocused]);
+
+    const checkNetWork = () => {
+        NetInfo.addEventListener(state => {
+            setIsOnline(state.isConnected ?? false);
+        });
+    };
+
+    const getNearByEvents = () => {
         currentLocation &&
             currentLocation.position &&
             getEvents(currentLocation.position.lat, currentLocation.position.lng);
-    }, [currentLocation]);
+    };
 
     const reverseGeoCode = async ({ lat, long }: { lat: number; long: number }) => {
         const api = `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat},${long}&lang=vi-VI&apiKey=zCDIlA5ytRuEe3YS9YrJlzAGjTkxsy4S6mJtq7ZpkGU`;
@@ -102,15 +179,20 @@ const HomeScreen = ({ navigation }: any) => {
 
     const getEvents = async (lat?: number, long?: number, distance?: number) => {
         const api = `${lat && long
+            ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
+            }&limit=5&isUpcoming=true`
+            : `/get-events?limit=5&isUpcoming=true`
                 ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
                 }&limit=5`
                 : `/get-events?limit=5`
             }`;
         // &date=${new Date().toISOString()}`;
 
-        setIsLoading(true);
+        if (events.length === 0 || nearbyEvents.length === 0) {
+            setIsLoading(true);
+        }
         try {
-            const res = await eventAPI.HandleEvent(api);
+            const res: any = await eventAPI.HandleEvent(api);
 
             setIsLoading(false);
             res &&
@@ -119,6 +201,27 @@ const HomeScreen = ({ navigation }: any) => {
         } catch (error) {
             setIsLoading(false);
             console.log(`Get event error in home screen line 74 ${error}`);
+        }
+    };
+
+    const getEventsData = async (
+        lat?: number,
+        long?: number,
+        distance?: number,
+    ) => {
+        const api = `/get-events`;
+        try {
+            const res = await eventAPI.HandleEvent(api);
+
+            const data = res.data;
+
+            const items: EventModel[] = [];
+
+            data.forEach((item: any) => items.push(item));
+
+            setEventData(items);
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -163,22 +266,27 @@ const HomeScreen = ({ navigation }: any) => {
                             )}
                         </View>
 
-                        <CircleComponent color="#524CE0" size={36}>
+                        <CircleComponent
+                            onPress={() => navigation.navigate('NotificationsScreen')}
+                            color="#524CE0"
+                            size={36}>
                             <View>
                                 <Notification size={18} color={appColors.white} />
-                                <View
-                                    style={{
-                                        backgroundColor: '#02E9FE',
-                                        width: 10,
-                                        height: 10,
-                                        borderRadius: 4,
-                                        borderWidth: 2,
-                                        borderColor: '#524CE0',
-                                        position: 'absolute',
-                                        top: -2,
-                                        right: -2,
-                                    }}
-                                />
+                                {unReadNotifications.length > 0 && (
+                                    <View
+                                        style={{
+                                            backgroundColor: '#02E9FE',
+                                            width: 10,
+                                            height: 10,
+                                            borderRadius: 4,
+                                            borderWidth: 2,
+                                            borderColor: '#524CE0',
+                                            position: 'absolute',
+                                            top: -2,
+                                            right: -2,
+                                        }}
+                                    />
+                                )}
                             </View>
                         </CircleComponent>
                     </RowComponent>
@@ -186,11 +294,7 @@ const HomeScreen = ({ navigation }: any) => {
                     <RowComponent>
                         <RowComponent
                             styles={{ flex: 1 }}
-                            onPress={() =>
-                                navigation.navigate('SearchEvents', {
-                                    isFilter: false,
-                                })
-                            }>
+                            onPress={() => navigation.navigate('SearchEvents')}>
                             <SearchNormal1
                                 variant="TwoTone"
                                 color={appColors.white}
@@ -214,9 +318,7 @@ const HomeScreen = ({ navigation }: any) => {
                         <TagComponent
                             bgColor={'#5D56F3'}
                             onPress={() =>
-                                navigation.navigate('SearchEvents', {
-                                    isFilter: true,
-                                })
+                                navigation.navigate('SearchEvents', { isFilter: true })
                             }
                             label="Filters"
                             icon={
@@ -241,6 +343,15 @@ const HomeScreen = ({ navigation }: any) => {
                     },
                 ]}>
                 <SectionComponent styles={{ paddingHorizontal: 0, paddingTop: 24 }}>
+                    <TabBarComponent
+                        title="Upcoming Events"
+                        onPress={() =>
+                            navigation.navigate('ExploreEvents', {
+                                key: 'upcoming',
+                                title: 'Upcoming Events',
+                            })
+                        }
+                    />
                     <TabBarComponent title="Upcoming Events" onPress={() => { }} />
                     {events.length > 0 ? (
                         <FlatList
@@ -287,7 +398,15 @@ const HomeScreen = ({ navigation }: any) => {
                     </ImageBackground>
                 </SectionComponent>
                 <SectionComponent styles={{ paddingHorizontal: 0, paddingTop: 24 }}>
-                    <TabBarComponent title="Nearby You" onPress={() => { }} />
+                    <TabBarComponent
+                        title="Nearby You"
+                        onPress={() =>
+                            navigation.navigate('ExploreEvents', {
+                                key: 'nearby',
+                                title: 'Nearby You',
+                            })
+                        }
+                    />
                     {nearbyEvents.length > 0 ? (
                         <FlatList
                             showsHorizontalScrollIndicator={false}
@@ -305,6 +424,12 @@ const HomeScreen = ({ navigation }: any) => {
                     )}
                 </SectionComponent>
             </ScrollView>
+
+            <Modal animationType="fade" style={[{ flex: 1 }]} visible={!isOnline}>
+                <View style={[globalStyles.center, { flex: 1 }]}>
+                    <Text>Network error</Text>
+                </View>
+            </Modal>
         </View>
     );
 };

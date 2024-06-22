@@ -1,3 +1,4 @@
+import {NotificationModel} from './../models/NotificationModel';
 /* eslint-disable prettier/prettier */
 import SpaceComponent from './SpaceComponent';
 import TextComponent from './TextComponent';
@@ -20,6 +21,11 @@ import DropdownPicker from './DropdownPicker';
 import ButtonImagePicker from './ButtonImagePicker';
 import MakerCustom from './MakerCustom';
 import LoadingComponent from './LoadingComponent';
+import AvatarComponent from './AvatarComponent';
+import UserComponent from './UserComponent';
+import ListEventComponent from './ListEventComponent';
+import RadioButtons from './RadioButtons';
+import NotificationItem from './NotificationItem.tsx';
 
 export {
   SpaceComponent,
@@ -43,4 +49,9 @@ export {
   ButtonImagePicker,
   MakerCustom,
   LoadingComponent,
+  AvatarComponent,
+  UserComponent,
+  ListEventComponent,
+  RadioButtons,
+  NotificationItem,
 };

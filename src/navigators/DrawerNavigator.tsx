@@ -1,6 +1,5 @@
-/* eslint-disable prettier/prettier */
-import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import React from 'react';
 import DrawerCustom from '../components/DrawerCustom';
 import TabNavigator from './TabNavigator';
 

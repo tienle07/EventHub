@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import React from 'react';
 
 interface Props {
@@ -10,10 +9,14 @@ interface Props {
 const SpaceComponent = (props: Props) => {
     const { width, height } = props;
 
-    return <View style={{
-        width,
-        height,
-    }} />;
+    return (
+        <View
+            style={{
+                width,
+                height,
+            }}
+        />
+    );
 };
 
 export default SpaceComponent;

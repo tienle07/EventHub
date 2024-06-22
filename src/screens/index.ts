@@ -11,6 +11,12 @@ import MapScreen from './maps/MapScreen';
 import ProfileScreen from './profiles/ProfileScreen';
 import SearchEvents from './events/SearchEvent';
 import EventDetail from './events/EventDetail';
+import EditProfileScreen from './profiles/EditProfileScreen';
+import NotFound from './NotFound';
+import ExploreEvents from './events/ExploreEvents';
+import CategoryDetail from './events/CategoryDetail';
+import PaymentScreen from './events/PaymentScreen';
+import NotificationsScreen from './NotificationsScreen';
 
 export {
   HomeScreen,
@@ -25,4 +31,10 @@ export {
   ProfileScreen,
   SearchEvents,
   EventDetail,
+  EditProfileScreen,
+  NotFound,
+  ExploreEvents,
+  CategoryDetail,
+  PaymentScreen,
+  NotificationsScreen,
 };

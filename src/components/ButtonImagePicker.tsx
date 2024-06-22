@@ -1,4 +1,4 @@
-import { View, Modal, Touchable, TouchableOpacity } from 'react-native';
+import { View, Text, Modal, Touchable, TouchableOpacity } from 'react-native';
 import React, { ReactNode, useRef, useState } from 'react';
 import {
     ButtonComponent,

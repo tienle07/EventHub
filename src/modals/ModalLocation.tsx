@@ -1,3 +1,4 @@
+
 import GeoLocation from '@react-native-community/geolocation';
 import axios from 'axios';
 import { SearchNormal1 } from 'iconsax-react-native';
@@ -65,18 +66,18 @@ const ModalLocation = (props: Props) => {
         );
     }, []);
 
-    // useEffect(() => {
-    //   GeoCoder.from(addressSelected)
-    //     .then(res => {
-    //       const position = res.results[0].geometry.location;
+    useEffect(() => {
+        GeoCoder.from(addressSelected)
+            .then(res => {
+                const position = res.results[0].geometry.location;
 
-    //       setCurrentLocation({
-    //         lat: position.lat,
-    //         long: position.lng,
-    //       });
-    //     })
-    //     .catch(error => console.log(error));
-    // }, [addressSelected]);
+                setCurrentLocation({
+                    lat: position.lat,
+                    long: position.lng,
+                });
+            })
+            .catch(error => console.log(error));
+    }, [addressSelected]);
 
     useEffect(() => {
         if (!searchKey) {
@@ -89,7 +90,8 @@ const ModalLocation = (props: Props) => {
     };
 
     const handleSearchLocation = async () => {
-        const api = `https://autocomplete.search.hereapi.com/v1/autocomplete?q=${searchKey}&limit=20&apiKey=${process.env.API_KEY}`;
+        const api = `https://autocomplete.search.hereapi.com/v1/autocomplete?q=${searchKey}&limit=20&apiKey=EoGZAqvCk9NFBvK6Trb_9iudji1DWPy1QfnsJN0GRlo`;
+
         try {
             setIsLoading(true);
             const res = await axios.get(api);
@@ -119,14 +121,14 @@ const ModalLocation = (props: Props) => {
             },
         });
         onClose();
-        // GeoCoder.from(latitude, longitude)
-        //   .then(data => {
-        //     console.log(data);
-        //     console.log(data.results[0].address_components[0]);
-        //   })
-        //   .catch(error => {
-        //     console.log(error);
-        //   });
+        GeoCoder.from(latitude, longitude)
+            .then(data => {
+                // console.log(data);
+                // console.log(data.results[0].address_components[0]);
+            })
+            .catch(error => {
+                console.log(error);
+            });
     };
 
     return (
