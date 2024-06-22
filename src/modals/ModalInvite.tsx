@@ -1,3 +1,4 @@
+
 import { SearchNormal1, TickCircle } from 'iconsax-react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Share, View } from 'react-native';
@@ -137,8 +138,9 @@ const ModalInvite = (props: Props) => {
                     {friendIds.length ? (
                         friendIds.map(
                             (id: string) =>
-                                !joined.includes(id) && (
-                                    <RowComponent key={id}>
+                                !joined.includes(id) &&
+                                id !== auth.id && (
+                                    <RowComponent key={id} styles={{ marginBottom: 16 }}>
                                         <View style={{ flex: 1 }}>
                                             <UserComponent
                                                 type="Invite"
