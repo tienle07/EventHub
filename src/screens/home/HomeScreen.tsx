@@ -1,4 +1,3 @@
-
 import GeoLocation from '@react-native-community/geolocation';
 import messaging from '@react-native-firebase/messaging';
 import { useIsFocused } from '@react-navigation/native';
@@ -21,7 +20,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
+
 import Toast from 'react-native-toast-message';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import eventAPI from '../../apis/eventApi';
@@ -45,9 +44,10 @@ import { EventModel } from '../../models/EventModel';
 import { globalStyles } from '../../styles/globalStyles';
 import { handleLinking } from '../../utils/handleLinking';
 import NetInfo from '@react-native-community/netinfo';
-
+import firestore from '@react-native-firebase/firestore';
 import { useSelector } from 'react-redux';
 import { authSelector } from '../../redux/reducers/authReducer';
+import { appInfo } from '../../constants/appInfos';
 
 const HomeScreen = ({ navigation }: any) => {
     const [currentLocation, setCurrentLocation] = useState<AddressModel>();
@@ -84,7 +84,7 @@ const HomeScreen = ({ navigation }: any) => {
                 text1: mess.notification.title,
                 text2: mess.notification.body,
                 onPress: () => {
-                    const id = mess.data ? mess.data.id : '';
+                    const id = mess.data ? mess.data.eventId : '';
                     id && navigation.navigate('EventDetail', { id });
                 },
             });
@@ -94,7 +94,7 @@ const HomeScreen = ({ navigation }: any) => {
             .getInitialNotification()
             .then((mess: any) => {
                 const id = mess && mess.data ? mess.data.id : '';
-                id && handleLinking(`eventhub://app/detail/${mess.data.id}`);
+                id && handleLinking(`${appInfo.domain}/detail/${mess.data.id}`);
             });
 
         checkNetWork();
