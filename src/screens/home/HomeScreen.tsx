@@ -20,7 +20,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-
+import firestore from '@react-native-firebase/firestore';
 import Toast from 'react-native-toast-message';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import eventAPI from '../../apis/eventApi';
@@ -44,7 +44,7 @@ import { EventModel } from '../../models/EventModel';
 import { globalStyles } from '../../styles/globalStyles';
 import { handleLinking } from '../../utils/handleLinking';
 import NetInfo from '@react-native-community/netinfo';
-import firestore from '@react-native-firebase/firestore';
+
 import { useSelector } from 'react-redux';
 import { authSelector } from '../../redux/reducers/authReducer';
 
@@ -99,11 +99,11 @@ const HomeScreen = ({ navigation }: any) => {
         checkNetWork();
 
         firestore()
-            .collection('notifcation')
+            .collection('notification')
             .where('idRead', '==', false)
             .where('uid', '==', user.id)
             .onSnapshot(snap => {
-                if (snap.empty) {
+                if (!snap || snap.empty) {
                     setUnReadNotifications([]);
                 } else {
                     const items: any = [];
@@ -160,9 +160,9 @@ const HomeScreen = ({ navigation }: any) => {
 
     const getEvents = async (lat?: number, long?: number, distance?: number) => {
         const api = `${lat && long
-                ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
-                }&limit=5&isUpcoming=true`
-                : `/get-events?limit=5&isUpcoming=true`
+            ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
+            }&limit=5&isUpcoming=true`
+            : `/get-events?limit=5&isUpcoming=true`
             }`;
 
         if (events.length === 0 || nearbyEvents.length === 0) {

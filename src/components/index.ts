@@ -1,3 +1,4 @@
+import {NotificationModel} from './../models/NotificationModel';
 /* eslint-disable prettier/prettier */
 import SpaceComponent from './SpaceComponent';
 import TextComponent from './TextComponent';
@@ -24,6 +25,7 @@ import AvatarComponent from './AvatarComponent';
 import UserComponent from './UserComponent';
 import ListEventComponent from './ListEventComponent';
 import RadioButtons from './RadioButtons';
+import NotificationItem from './NotificationItem.tsx';
 
 export {
   SpaceComponent,
@@ -51,4 +53,5 @@ export {
   UserComponent,
   ListEventComponent,
   RadioButtons,
+  NotificationItem,
 };

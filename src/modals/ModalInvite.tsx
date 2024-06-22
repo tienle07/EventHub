@@ -64,6 +64,7 @@ const ModalInvite = (props: Props) => {
     const handleSendInviteNotification = async () => {
         if (useSelected.length > 0) {
             const api = `/send-invite`;
+            console.log(api);
 
             try {
                 await userAPI.HandleUser(
@@ -83,13 +84,15 @@ const ModalInvite = (props: Props) => {
                     idRead: false,
                 };
 
+                console.log(data);
+
                 useSelected.forEach(async id => {
                     console.log(id);
                     await firestore()
-                        .collection('notifcation')
+                        .collection('notification')
                         .add({ ...data, uid: id });
 
-                    console.log('Created notifition done!');
+                    console.log('Created notification done!');
                 });
 
                 onClose();

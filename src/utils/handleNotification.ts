@@ -13,7 +13,7 @@ export class HandleNotification {
     ) {
       if (Platform.OS === 'ios') {
         try {
-          await messaging().registerDeviceForRemoteMessages();
+          // await messaging().registerDeviceForRemoteMessages();
         } catch (error) {
           console.log(error);
         }

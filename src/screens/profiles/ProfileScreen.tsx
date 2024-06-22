@@ -54,11 +54,14 @@ const ProfileScreen = ({ navigation, route }: any) => {
     }, [profileId]);
 
     const getProfile = async () => {
+
         const api = `/get-profile?uid=${profileId}`;
+        console.log(api);
 
         setIsLoading(true);
         try {
             const res = await userAPI.HandleUser(api);
+            console.log(res);
             res && res.data && setProfile(res.data);
 
             setIsLoading(false);
@@ -67,7 +70,6 @@ const ProfileScreen = ({ navigation, route }: any) => {
             setIsLoading(false);
         }
     };
-
     const getFollowersByUid = async () => {
         const api = `/get-followers?uid=${profileId}`;
 
