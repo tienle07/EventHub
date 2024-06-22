@@ -22,8 +22,12 @@ import {
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import Toast from 'react-native-toast-message';
+    ToastAndroid,
+    TouchableOpacity,
+    View,
+} from 'react-native';
+import Geocoder from 'react-native-geocoding';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import eventAPI from '../../apis/eventApi';
 import {
     ButtonComponent,
     CategoriesList,
@@ -40,10 +44,14 @@ import {
 import { appColors } from '../../constants/appColors';
 import { fontFamilies } from '../../constants/fontFamilies';
 import { AddressModel } from '../../models/AddressModel';
-import { EventModel } from '../../models/EventModel';
 import { globalStyles } from '../../styles/globalStyles';
 import { handleLinking } from '../../utils/handleLinking';
 import NetInfo from '@react-native-community/netinfo';
+import eventAPI from '../../apis/eventApi';
+import { EventModel } from '../../models/EventModel';
+import messaging, {
+    FirebaseMessagingTypes,
+} from '@react-native-firebase/messaging';
 
 import { useSelector } from 'react-redux';
 import { authSelector } from '../../redux/reducers/authReducer';
@@ -118,6 +126,17 @@ const HomeScreen = ({ navigation }: any) => {
                     setUnReadNotifications(items);
                 }
             });
+
+        messaging().onMessage(
+            async (mess: FirebaseMessagingTypes.RemoteMessage) => {
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show(
+                        mess.notification?.title ?? 'fafsf',
+                        ToastAndroid.SHORT,
+                    );
+                }
+            },
+        );
     }, []);
 
     useEffect(() => {
@@ -163,7 +182,11 @@ const HomeScreen = ({ navigation }: any) => {
             ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
             }&limit=5&isUpcoming=true`
             : `/get-events?limit=5&isUpcoming=true`
+                ? `/get-events?lat=${lat}&long=${long}&distance=${distance ?? 5
+                }&limit=5`
+                : `/get-events?limit=5`
             }`;
+        // &date=${new Date().toISOString()}`;
 
         if (events.length === 0 || nearbyEvents.length === 0) {
             setIsLoading(true);
@@ -205,6 +228,7 @@ const HomeScreen = ({ navigation }: any) => {
     return (
         <View style={[globalStyles.container]}>
             <StatusBar barStyle={'light-content'} />
+
             <View
                 style={{
                     backgroundColor: appColors.primary,
@@ -310,7 +334,6 @@ const HomeScreen = ({ navigation }: any) => {
                     <CategoriesList isFill />
                 </View>
             </View>
-
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 style={[
@@ -329,6 +352,7 @@ const HomeScreen = ({ navigation }: any) => {
                             })
                         }
                     />
+                    <TabBarComponent title="Upcoming Events" onPress={() => { }} />
                     {events.length > 0 ? (
                         <FlatList
                             showsHorizontalScrollIndicator={false}
