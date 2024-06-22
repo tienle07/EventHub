@@ -1,4 +1,3 @@
-
 import {
     ArrowLeft,
     ArrowRight,
@@ -113,7 +112,7 @@ const EventDetail = ({ navigation, route }: any) => {
     const handleUpdateFollowers = async (data: string[]) => {
         await UserHandle.getFollowersById(auth.id, dispatch);
 
-        const api = `/update-followes`;
+        const api = `/update-followers`;
 
         try {
             await eventAPI.HandleEvent(
@@ -190,6 +189,8 @@ const EventDetail = ({ navigation, route }: any) => {
             console.log(error);
         }
     };
+
+    console.log(auth.id, item?.authorId);
 
     return isLoading ? (
         <View style={[globalStyles.container, globalStyles.center, { flex: 1 }]}>
@@ -269,7 +270,7 @@ const EventDetail = ({ navigation, route }: any) => {
                     style={{ width: appInfo.sizes.WIDTH, height: 240, resizeMode: 'cover' }}
                 />
                 <SectionComponent styles={{ marginTop: -20 }}>
-                    {item.users && item.users.length > 0 ? (
+                    {item.joined && item.joined.length > 0 ? (
                         <View
                             style={{
                                 justifyContent: 'center',
@@ -287,7 +288,7 @@ const EventDetail = ({ navigation, route }: any) => {
                                         width: '90%',
                                     },
                                 ]}>
-                                <AvatarGroup userIds={item.users} size={36} />
+                                <AvatarGroup userIds={item.joined} size={36} />
                                 <TouchableOpacity
                                     onPress={() => setIsVisibleModalinvite(true)}
                                     style={[
@@ -409,21 +410,22 @@ const EventDetail = ({ navigation, route }: any) => {
                                         color={appColors.gray}
                                     />
                                 </View>
-
-                                <TagComponent
-                                    label={
-                                        auth.following && auth.following.includes(item.authorId)
-                                            ? 'Unfollow'
-                                            : 'Follow'
-                                    }
-                                    onPress={() => handleToggleFollowing(item.authorId)}
-                                    styles={{
-                                        backgroundColor: `${appColors.primary}20`,
-                                        borderRadius: 12,
-                                    }}
-                                    textStyles={{ fontFamily: fontFamilies.regular }}
-                                    textColor={appColors.primary}
-                                />
+                                {auth.id !== item.authorId && (
+                                    <TagComponent
+                                        label={
+                                            auth.following && auth.following.includes(item.authorId)
+                                                ? 'Unfollow'
+                                                : 'Follow'
+                                        }
+                                        onPress={() => handleToggleFollowing(item.authorId)}
+                                        styles={{
+                                            backgroundColor: `${appColors.primary}20`,
+                                            borderRadius: 12,
+                                        }}
+                                        textStyles={{ fontFamily: fontFamilies.regular }}
+                                        textColor={appColors.primary}
+                                    />
+                                )}
                             </RowComponent>
                         )}
                     </SectionComponent>
@@ -470,6 +472,7 @@ const EventDetail = ({ navigation, route }: any) => {
                 visible={isVisibleModalinvite}
                 onClose={() => setIsVisibleModalinvite(false)}
                 eventId={item._id}
+                joined={item.joined}
             />
         </View>
     ) : (
