@@ -11,15 +11,15 @@ import { appInfo } from './src/constants/appInfos';
 
 messaging().setBackgroundMessageHandler(async mess => {
     handleLinking(`${appInfo.domain}/detail/${mess.data.eventId}`);
-    console.log(`${appInfo.domain}/detail/${mess.data.eventId}`)
-    console.log(mess)
+    // console.log(`${appInfo.domain}/detail/${mess.data.eventId}`)
+    // console.log(mess)
 
 });
 
 messaging().onNotificationOpenedApp(mess => {
     handleLinking(`${appInfo.domain}/detail/${mess.data.eventId}`);
-    console.log(`${appInfo.domain}/detail/${mess.data.eventId}`)
-    console.log(mess)
+    // console.log(`${appInfo.domain}/detail/${mess.data.eventId}`)
+    // console.log(mess)
 });
 
 AppRegistry.registerComponent(appName, () => App);
