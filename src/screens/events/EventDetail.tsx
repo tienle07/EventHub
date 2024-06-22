@@ -125,7 +125,7 @@ const EventDetail = ({ navigation, route }: any) => {
                 'post',
             );
         } catch (error) {
-            console.log(`Can not update followers in Event detail line 63, ${error}`);
+            console.log(`Can not update followers in Event detail, ${error}`);
         }
     };
 
