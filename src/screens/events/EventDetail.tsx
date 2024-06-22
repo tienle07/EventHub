@@ -12,14 +12,11 @@ import {
     ScrollView,
     TouchableOpacity,
     View,
-
-    ImageBackground,
-    ScrollView,
-    TouchableOpacity,
-    View,
 } from 'react-native';
 import { LinearGradient } from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import eventAPI from '../../apis/eventApi';
 import {
     AvatarGroup,
     ButtonComponent,
@@ -31,8 +28,10 @@ import {
     TagComponent,
     TextComponent,
 } from '../../components';
-import { DateTime } from '../../utils/DateTime';
 import { appColors } from '../../constants/appColors';
+import { appInfo } from '../../constants/appInfos';
+import { fontFamilies } from '../../constants/fontFamilies';
+import { LoadingModal } from '../../modals';
 import { EventModel } from '../../models/EventModel';
 import {
     AuthState,
@@ -46,15 +45,6 @@ import userAPI from '../../apis/userApi';
 import { ProfileModel } from '../../models/ProfileModel';
 import ModalInvite from '../../modals/ModalInvite';
 import { ShareEvent } from '../../utils/shareEvent';
-import { globalStyles } from '../../styles/globalStyles';
-import { fontFamilies } from '../../constants/fontFamilies';
-import { useDispatch, useSelector } from 'react-redux';
-import { AuthState, authSelector } from '../../redux/reducers/authReducer';
-import eventAPI from '../../apis/eventApi';
-import { LoadingModal } from '../../modals';
-import { UserHandle } from '../../utils/UserHandlers';
-import { appInfo } from '../../constants/appInfos';
-
 
 const EventDetail = ({ navigation, route }: any) => {
     const { id }: { id: string } = route.params;
@@ -402,33 +392,6 @@ const EventDetail = ({ navigation, route }: any) => {
                                         borderRadius: 12,
                                         resizeMode: 'cover',
                                     }}
-                        <RowComponent styles={{ marginBottom: 20 }}>
-                            <Image
-                                source={{
-                                    uri: 'https://gamek.mediacdn.vn/133514250583805952/2022/5/18/photo-1-16528608926331302726659.jpg',
-                                }}
-                                style={{
-                                    width: 48,
-                                    height: 48,
-                                    borderRadius: 12,
-                                    resizeMode: 'cover',
-                                }}
-                            />
-                            <SpaceComponent width={16} />
-                            <View
-                                style={{
-                                    flex: 1,
-                                    height: 48,
-                                    justifyContent: 'space-around',
-                                }}>
-                                <TextComponent
-                                    text="Son Tung MTP"
-                                    font={fontFamilies.medium}
-                                    size={16}
-                                />
-                                <TextComponent
-                                    text="Tuesday, 4:00PM - 9:00PM"
-                                    color={appColors.gray}
                                 />
                                 <SpaceComponent width={16} />
                                 <View

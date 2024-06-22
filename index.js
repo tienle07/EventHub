@@ -15,11 +15,6 @@ messaging().setBackgroundMessageHandler(async mess => {
 messaging().onNotificationOpenedApp(mess => {
     // console.log(`forgress:  ${mess}`);
     handleLinking(`eventhub://app/detail/${mess.data.id}`);
-
-messaging().setBackgroundMessageHandler(async mess => { });
-
-messaging().onNotificationOpenedApp(mess => {
-    console.log(mess);
 });
 
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent(appName, () => App); 
