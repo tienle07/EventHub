@@ -25,6 +25,7 @@ import { EventModel } from '../models/EventModel';
 import eventAPI from '../apis/eventApi';
 import { LoadingModal } from '../modals';
 import { DateTime } from '../utils/DateTime';
+import Toast from 'react-native-toast-message';
 
 const initValues = {
     title: '',
@@ -170,9 +171,14 @@ const AddNewScreen = ({ navigation }: any) => {
 
             const res = await eventAPI.HandleEvent(api, event, 'post');
 
-            console.log(res);
-
             setIsCreating(false);
+
+            Toast.show({
+                type: 'success',
+                text1: 'Success',
+                text2: 'Add event successfully'
+            });
+
             navigation.navigate('Explore', {
                 screen: 'HomeScreen',
             });
@@ -201,10 +207,10 @@ const AddNewScreen = ({ navigation }: any) => {
                 <TextComponent text="Add new" title />
             </SectionComponent>
             <SectionComponent>
-                {eventData.photoUrl || fileSelected ? (
+                {eventData.photoUrl || (fileSelected && fileSelected.path) ? (
                     <Image
                         source={{
-                            uri: eventData.photoUrl ? eventData.photoUrl : fileSelected.uri,
+                            uri: eventData.photoUrl ? eventData.photoUrl : fileSelected.path,
                         }}
                         style={{ width: '100%', height: 250, marginBottom: 12 }}
                         resizeMode="cover"

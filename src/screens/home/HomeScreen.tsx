@@ -104,7 +104,7 @@ const HomeScreen = ({ navigation }: any) => {
             .where('idRead', '==', false)
             .where('uid', '==', user.id)
             .onSnapshot(snap => {
-                if (!snap || snap.empty) {
+                if (snap.empty) {
                     setUnReadNotifications([]);
                 } else {
                     const items: any = [];

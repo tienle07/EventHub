@@ -19,6 +19,7 @@ const AvatarGroup = (props: Props) => {
                 <>
                     {userIds.map((item, index) => (
                         <AvatarComponent
+                            key={`avatar-${item}`}  // Add a unique key prop
                             uid={item}
                             styles={{
                                 borderWidth: 1,
